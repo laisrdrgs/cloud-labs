@@ -89,7 +89,7 @@ O acesso foi realizado com sucesso.
 
 Print da configuração da VPC criada durante o laboratório.
 
-![Configuração da VPC](./vpc.png)
+![Configuração da VPC](./vpc-info.png)
 
 ### Web Server
 
