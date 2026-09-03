@@ -28,7 +28,10 @@ A instância EC2 foi lançada na Public Subnet 2, utilizando o Web Security Grou
 * Amazon VPC — criação da rede virtual
 * Amazon EC2 — criação do servidor
 * Security Group — controle do tráfego de entrada e saída
-* Subnet — organização da instância dentro da VPC
+* Subnets — organização dos recursos dentro da VPC
+* Internet Gateway — comunicação entre a VPC e a internet
+* NAT Gateway — acesso à internet para recursos em subnets privadas
+* Route Tables — definição das rotas de tráfego das subnets
 
 ## Etapas realizadas
 
@@ -73,9 +76,11 @@ Security Group: Web Security Group
 
 6. Configuração do Web Server
 
-A instância foi configurada através de User Data para instalar e iniciar o Apache HTTP Server, além dos pacotes PHP e MySQL.
+A instância foi configurada através de User Data para instalar o Apache HTTP Server (`httpd`), PHP e MariaDB.
 
-Os arquivos da aplicação fornecidos pelo laboratório foram baixados e disponibilizados no diretório do Web Server.
+Em seguida, os arquivos da aplicação fornecidos pelo laboratório foram baixados, descompactados e disponibilizados no diretório `/var/www/html/`.
+
+Por fim, o serviço `httpd` foi habilitado para iniciar automaticamente e iniciado na própria instância.
 
 7. Teste de acesso
 
@@ -97,4 +102,6 @@ Print do Web Server funcionando após a configuração da instância EC2.
 
 ![Web Server funcionando](./web-server.png)
 
-Ao final do laboratório, foi possível criar uma infraestrutura básica de rede na AWS e utilizar uma instância EC2 para hospedar um web server, permitindo o acesso à página através do navegador.
+## Resultado
+
+Ao final do laboratório, foi possível criar uma infraestrutura básica de rede na AWS e utilizar uma instância EC2 para hospedar um Web Server, permitindo o acesso à página através do navegador.
