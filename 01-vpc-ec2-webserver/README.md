@@ -85,8 +85,6 @@ O acesso foi realizado com sucesso.
 
 ## Evidências
 
-## Evidências
-
 ### VPC
 
 Print da configuração da VPC criada durante o laboratório.
