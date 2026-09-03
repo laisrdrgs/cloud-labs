@@ -1,4 +1,4 @@
-# Lab 01 — VPC, Subnet, Security Group e EC2
+# Lab — VPC, Subnet, Security Group e EC2
 
 ## Objetivo
 
