@@ -41,6 +41,8 @@ Foi criada a VPC `Lab VPC` utilizando o bloco CIDR `10.0.0.0/16`.
 
 A configuração inicial também criou um Internet Gateway, um NAT Gateway, uma public subnet e uma private subnet.
 
+![Configuração da VPC](./vpc-info.png)
+
 ### 2. Criação das subnets adicionais
 
 Foram criadas duas subnets adicionais em uma segunda Availability Zone:
