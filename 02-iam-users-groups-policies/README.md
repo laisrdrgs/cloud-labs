@@ -1,4 +1,4 @@
-# Laboratório AWS IAM — Usuários, Grupos e Políticas
+# Lab — IAM, Usuários, Grupos e Políticas
 
 ## Objetivo
 
