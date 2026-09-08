@@ -1,6 +1,6 @@
 # Cloud Labs
 
-Repositório destinado à documentação dos meus estudos práticos em Cloud Computing.
+Repositório destinado à documentação dos meus estudos práticos em computação em nuvem, com foco em AWS.
 
 ## Labs
 
