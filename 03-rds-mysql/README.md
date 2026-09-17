@@ -1,4 +1,4 @@
-# Lab — Amazon RDS
+# Lab — Amazon RDS e Address Book
 
 ## Objetivo
 
@@ -40,13 +40,13 @@ DB Subnet Group       Security Group
 
 Foi configurado um Security Group para controlar o tráfego de rede relacionado ao banco de dados.
 
-![Security Group do banco de dados](screenshots/db-security-group.png)
+![Security Group do banco de dados](db-security-group.png)
 
 ### 2. Configuração do DB Subnet Group
 
 Foi configurado um DB Subnet Group para definir as subnets utilizadas pelo Amazon RDS.
 
-![Detalhes do DB Subnet Group](screenshots/subnet-group-details.png)
+![Detalhes do DB Subnet Group](subnet-group-details.png)
 
 ### 3. Criação e execução do banco de dados
 
@@ -54,7 +54,7 @@ Foi criada uma instância de banco de dados utilizando o Amazon RDS.
 
 Após a criação, a instância permaneceu em execução para ser utilizada pela aplicação Address Book.
 
-![Banco de dados RDS em execução](screenshots/db.png)
+![Banco de dados RDS em execução](db.png)
 
 ### 4. Teste da aplicação
 
@@ -62,7 +62,7 @@ Após a configuração do banco de dados e dos recursos necessários, a aplicaç
 
 A aplicação foi acessada através do navegador e apresentou o funcionamento esperado.
 
-![Address Book funcionando](screenshots/running-application.png)
+![Address Book funcionando](running-application.png)
 
 ## Resultado
 
