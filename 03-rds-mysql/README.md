@@ -120,17 +120,9 @@ Após o envio das configurações, a aplicação passou a utilizar o banco de da
 
 ![Address Book funcionando](running-application.png)
 
-### 5. Validação da persistência dos dados
-
-Após a configuração da aplicação, foram realizados testes de inclusão, edição e remoção de contatos.
-
-A aplicação utilizou o banco de dados RDS para persistir as informações, permitindo validar a comunicação entre o Web Server e o banco de dados.
-
 ## Resultado
 
-Ao final do laboratório, foi possível configurar uma instância Amazon RDS for MySQL em uma implantação Multi-AZ, utilizando um DB Subnet Group com subnets privadas distribuídas em duas Availability Zones e um Security Group específico para controlar o acesso ao banco de dados.
-
-Também foi possível configurar a aplicação Address Book para utilizar o banco de dados RDS e validar a persistência das informações através da inclusão, edição e remoção de contatos.
+Ao final do laboratório, foi possível configurar uma instância Amazon RDS for MySQL em uma implantação Multi-AZ, utilizando um DB Subnet Group com subnets privadas distribuídas em duas Availability Zones e um Security Group específico para controlar o acesso ao banco de dados. Também foi possível configurar a aplicação Address Book para utilizar o banco de dados RDS.
 
 O laboratório permitiu praticar conceitos relacionados a:
 
