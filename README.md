@@ -33,3 +33,19 @@ Laboratório de introdução ao AWS Identity and Access Management (IAM), explor
 - Amazon EC2
 
 [Ver documentação](./02-iam-users-groups-policies/)
+
+---
+
+### Amazon RDS e Address Book
+
+Laboratório de criação e configuração de um banco de dados utilizando o Amazon RDS, com configuração de DB Subnet Group e Security Group e integração com uma aplicação Address Book.
+
+**Serviços utilizados:**
+
+- Amazon RDS
+- DB Subnet Groups
+- Security Groups
+- Amazon VPC
+- Amazon EC2
+
+[Ver documentação](./03-rds-address-book/)
