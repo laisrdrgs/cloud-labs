@@ -1,4 +1,4 @@
-# Lab — Amazon RDS e DB Subnet Group
+# Lab — Amazon RDS e Address Book
 ## Objetivo
 
 Este laboratório teve como objetivo praticar a criação e configuração de um banco de dados relacional utilizando o Amazon RDS e sua integração com uma aplicação web.
