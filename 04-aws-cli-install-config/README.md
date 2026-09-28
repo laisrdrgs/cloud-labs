@@ -22,19 +22,19 @@ Computador local
        | SSH
        v
 +-----------------------+
-|      EC2 Instance     |
+|     Instância EC2     |
 |                       |
-|      AWS CLI          |
+|       AWS CLI         |
 +-----------------------+
        |
-       | AWS API
+       | API da AWS
        v
 +-----------------------+
-|         IAM           |
+|          IAM          |
 |                       |
-|  Users                |
-|  Policies             |
-|  Policy Versions      |
+|      Usuários         |
+|      Políticas        |
+|   Versões de políticas|
 +-----------------------+
 ```
 
