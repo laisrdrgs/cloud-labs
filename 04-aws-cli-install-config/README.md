@@ -1,10 +1,10 @@
 # Lab — AWS CLI, EC2, and IAM
 
-[🇺🇸 English](#-english) | [🇧🇷 Português](#-português)
+[English](#english) · [Português](#português)
 
 ---
 
-## 🇺🇸 English
+## English
 
 ## Objective
 
@@ -203,7 +203,7 @@ The lab also provided practical experience with using the AWS CLI to perform ope
 
 ---
 
-## 🇧🇷 Português
+## Português
 
 ## Objetivo
 
