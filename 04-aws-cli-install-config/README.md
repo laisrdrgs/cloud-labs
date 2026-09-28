@@ -16,26 +16,15 @@ A partir da instância, a AWS CLI foi instalada e configurada para realizar cham
 
 A estrutura pode ser representada da seguinte forma:
 
-```text
-Computador local
-       |
-       | SSH
-       v
-+-----------------------+
-|     Instância EC2     |
-|                       |
-|       AWS CLI         |
-+-----------------------+
-       |
-       | API da AWS
-       v
-+-----------------------+
-|          IAM          |
-|                       |
-|      Usuários         |
-|      Políticas        |
-|   Versões de políticas|
-+-----------------------+
+```mermaid
+flowchart LR
+    A[Computador local] -->|SSH| B[Instância EC2]
+    B --> C[AWS CLI]
+    C -->|API da AWS| D[AWS IAM]
+
+    D --> E[Usuários]
+    D --> F[Políticas]
+    D --> G[Versões de políticas]
 ```
 
 ## Serviços utilizados
