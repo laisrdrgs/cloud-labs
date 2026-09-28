@@ -12,9 +12,9 @@ A collection of hands-on Cloud Computing labs and practical exercises focused on
 
 ### 01. VPC, Subnets, Security Groups, and EC2
 
-Lab focused on creating and configuring a network infrastructure in AWS, with an EC2 instance configured to host a Web Server.
+Lab focused on creating and configuring AWS network infrastructure, including an EC2 instance configured to host a web server.
 
-**Services and resources used:**
+**Services and Resources Used:**
 
 * Amazon VPC
 * Amazon EC2
@@ -24,21 +24,21 @@ Lab focused on creating and configuring a network infrastructure in AWS, with an
 * NAT Gateway
 * Route Tables
 
-[View documentation](./01-vpc-ec2-webserver/)
+[View Documentation](./01-vpc-ec2-webserver/)
 
 ---
 
 ### 02. IAM, Users, Groups, and Policies
 
-Lab introducing AWS Identity and Access Management (IAM), covering the creation and configuration of password policies, users, groups, and access permissions for AWS services.
+Lab focused on AWS Identity and Access Management (IAM), covering the configuration of password policies, users, groups, and access permissions for AWS services.
 
-**Services and resources used:**
+**Services and Resources Used:**
 
 * AWS Identity and Access Management (IAM)
 * Amazon S3
 * Amazon EC2
 
-[View documentation](./02-iam-users-groups-policies/)
+[View Documentation](./02-iam-users-groups-policies/)
 
 ---
 
@@ -46,7 +46,7 @@ Lab introducing AWS Identity and Access Management (IAM), covering the creation 
 
 Lab focused on creating and configuring a database using Amazon RDS, including the configuration of a DB Subnet Group and Security Group, as well as integration with an Address Book application.
 
-**Services and resources used:**
+**Services and Resources Used:**
 
 * Amazon RDS
 * DB Subnet Groups
@@ -54,21 +54,21 @@ Lab focused on creating and configuring a database using Amazon RDS, including t
 * Amazon VPC
 * Amazon EC2
 
-[View documentation](./03-rds-address-book/)
+[View Documentation](./03-rds-address-book/)
 
 ---
 
 ### 04. AWS CLI, EC2, and IAM
 
-Lab focused on installing and configuring the AWS Command Line Interface (AWS CLI) on an EC2 instance, using IAM for authentication and querying users and policies through the command line.
+Lab focused on installing and configuring the AWS Command Line Interface (AWS CLI) on an EC2 instance, using IAM authentication to query users and policies through the command line.
 
-**Services and resources used:**
+**Services and Resources Used:**
 
 * AWS Command Line Interface (AWS CLI)
 * Amazon EC2
 * AWS Identity and Access Management (IAM)
 
-[View documentation](./04-aws-cli-install-config/)
+[View Documentation](./04-aws-cli-install-config/)
 
 ---
 
@@ -80,9 +80,9 @@ Coleção de laboratórios práticos e exercícios de Cloud Computing com foco e
 
 ### 01. VPC, Subnets, Security Groups e EC2
 
-Laboratório de criação e configuração de uma infraestrutura de rede na AWS, com uma instância EC2 configurada para hospedar um Web Server.
+Laboratório focado na criação e configuração de uma infraestrutura de rede na AWS, incluindo uma instância EC2 configurada para hospedar um web server.
 
-**Serviços e recursos utilizados:**
+**Serviços e Recursos Utilizados:**
 
 * Amazon VPC
 * Amazon EC2
@@ -92,29 +92,29 @@ Laboratório de criação e configuração de uma infraestrutura de rede na AWS,
 * NAT Gateway
 * Route Tables
 
-[Ver documentação](./01-vpc-ec2-webserver/)
+[Ver Documentação](./01-vpc-ec2-webserver/)
 
 ---
 
 ### 02. IAM, Usuários, Grupos e Políticas
 
-Laboratório de introdução ao AWS Identity and Access Management (IAM), explorando a criação e configuração de políticas de senha, usuários, grupos e permissões de acesso aos serviços da AWS.
+Laboratório focado no AWS Identity and Access Management (IAM), abordando a configuração de políticas de senha, usuários, grupos e permissões de acesso aos serviços da AWS.
 
-**Serviços e recursos utilizados:**
+**Serviços e Recursos Utilizados:**
 
 * AWS Identity and Access Management (IAM)
 * Amazon S3
 * Amazon EC2
 
-[Ver documentação](./02-iam-users-groups-policies/)
+[Ver Documentação](./02-iam-users-groups-policies/)
 
 ---
 
 ### 03. Amazon RDS e Address Book
 
-Laboratório de criação e configuração de um banco de dados utilizando o Amazon RDS, com configuração de DB Subnet Group e Security Group e integração com uma aplicação Address Book.
+Laboratório focado na criação e configuração de um banco de dados utilizando o Amazon RDS, incluindo a configuração de um DB Subnet Group e Security Group, além da integração com uma aplicação Address Book.
 
-**Serviços e recursos utilizados:**
+**Serviços e Recursos Utilizados:**
 
 * Amazon RDS
 * DB Subnet Groups
@@ -122,18 +122,18 @@ Laboratório de criação e configuração de um banco de dados utilizando o Ama
 * Amazon VPC
 * Amazon EC2
 
-[Ver documentação](./03-rds-address-book/)
+[Ver Documentação](./03-rds-address-book/)
 
 ---
 
 ### 04. AWS CLI, EC2 e IAM
 
-Laboratório de instalação e configuração da AWS Command Line Interface (AWS CLI) em uma instância EC2, utilizando o IAM para autenticação e consulta de usuários e políticas através da linha de comando.
+Laboratório focado na instalação e configuração da AWS Command Line Interface (AWS CLI) em uma instância EC2, utilizando autenticação do IAM para consultar usuários e políticas por meio da linha de comando.
 
-**Serviços e recursos utilizados:**
+**Serviços e Recursos Utilizados:**
 
 * AWS Command Line Interface (AWS CLI)
 * Amazon EC2
 * AWS Identity and Access Management (IAM)
 
-[Ver documentação](./04-aws-cli-install-config/)
+[Ver Documentação](./04-aws-cli-install-config/)
