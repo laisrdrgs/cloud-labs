@@ -20,17 +20,24 @@ The infrastructure used in this lab consisted of an EC2 instance accessed remote
 
 The AWS CLI was installed and configured on the instance to make API calls to the AWS account. The CLI was then used to query IAM information, including users, policies, and policy versions.
 
-The architecture can be represented as follows:
+The communication flow can be represented as:
 
-```mermaid
-flowchart LR
-    A["Local Computer"] -->|SSH| B["EC2 Instance"]
-    B --> C["AWS CLI"]
-    C -->|"AWS API"| D["AWS IAM"]
-
-    D --> E["Users"]
-    D --> F["Policies"]
-    D --> G["Policy Versions"]
+```text
+Local Computer
+      │
+      │ SSH
+      ▼
+EC2 Instance
+      │
+      ▼
+AWS CLI
+      │
+      │ AWS API
+      ▼
+AWS IAM
+ ┌────┼──────────────┐
+ ▼    ▼              ▼
+Users Policies   Policy Versions
 ```
 
 ## Services and Resources Used
@@ -219,17 +226,24 @@ A infraestrutura utilizada neste laboratório consistiu em uma instância EC2 ac
 
 A AWS CLI foi instalada e configurada na instância para realizar chamadas à conta AWS. Em seguida, a CLI foi utilizada para consultar informações do IAM, incluindo usuários, políticas e versões de políticas.
 
-A arquitetura pode ser representada da seguinte forma:
+O fluxo de comunicação pode ser representado da seguinte forma:
 
-```mermaid
-flowchart LR
-    A["Computador Local"] -->|SSH| B["Instância EC2"]
-    B --> C["AWS CLI"]
-    C -->|"API da AWS"| D["AWS IAM"]
-
-    D --> E["Usuários"]
-    D --> F["Políticas"]
-    D --> G["Versões de Políticas"]
+```text
+Computador Local
+      │
+      │ SSH
+      ▼
+Instância EC2
+      │
+      ▼
+AWS CLI
+      │
+      │ API da AWS
+      ▼
+AWS IAM
+ ┌────┼────────────────┐
+ ▼    ▼                ▼
+Usuários Políticas  Versões de Políticas
 ```
 
 ## Serviços e Recursos Utilizados
@@ -283,9 +297,9 @@ Também foi utilizado o comando `aws help` para verificar o funcionamento da fer
 aws help
 ```
 
-### 3. Observação da Configuração do IAM
+### 3. Revisão da Configuração do IAM
 
-Antes de utilizar a AWS CLI para realizar as consultas, foram observadas algumas configurações do IAM no AWS Management Console.
+Antes de utilizar a AWS CLI para realizar as consultas, algumas configurações do IAM foram revisadas no AWS Management Console.
 
 Entre as informações verificadas estavam:
 
