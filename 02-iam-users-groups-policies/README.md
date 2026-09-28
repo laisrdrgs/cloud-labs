@@ -1,10 +1,10 @@
 # Lab — IAM, Users, Groups, and Policies
 
-[🇺🇸 English](#-english) | [🇧🇷 Português](#-português)
+[English](#english) · [Português](#português)
 
 ---
 
-## 🇺🇸 English
+## English
 
 ## Objective
 
@@ -103,7 +103,7 @@ It demonstrated how users can receive permissions through groups and how differe
 
 ---
 
-## 🇧🇷 Português
+## Português
 
 ## Objetivo
 
