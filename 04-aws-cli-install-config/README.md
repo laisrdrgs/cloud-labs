@@ -164,7 +164,7 @@ A versão padrão identificada durante o laboratório foi `v1`.
 
 O comando retornou as informações da versão da política, incluindo o documento JSON correspondente à `lab_policy`.
 
-![Recuperação da versão da policy](./get-policy-version.png)
+![Recuperação da versão da policy](./policy-version.png)
 
 ### 8. Salvamento da policy em formato JSON
 
