@@ -124,7 +124,7 @@ O comando retorna os usuários IAM existentes na conta AWS em formato JSON.
 
 O resultado confirmou que a AWS CLI estava corretamente configurada e conseguia realizar consultas ao serviço IAM.
 
-![Consulta de usuários IAM](./list-users.png)
+![Consulta de usuários IAM](./users.png)
 
 ### 6. Consulta das políticas IAM
 
@@ -146,7 +146,7 @@ Entre as informações retornadas estavam:
 
 A propriedade `DefaultVersionId` identifica a versão padrão da política e foi utilizada na etapa seguinte.
 
-![Consulta das políticas IAM](./list-policies.png)
+![Consulta das políticas IAM](./policies.png)
 
 ### 7. Recuperação da versão da `lab_policy`
 
