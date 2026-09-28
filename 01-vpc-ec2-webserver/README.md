@@ -1,10 +1,10 @@
 # Lab — VPC, Subnet, Security Group, and EC2
 
-[🇺🇸 English](#-english) | [🇧🇷 Português](#-português)
+[English](#english) · [Português](#português)
 
 ---
 
-## 🇺🇸 English
+## English
 
 ## Objective
 
@@ -104,7 +104,7 @@ At the end of the lab, a basic AWS network infrastructure was successfully creat
 
 ---
 
-## 🇧🇷 Português
+## Português
 
 ## Objetivo
 
