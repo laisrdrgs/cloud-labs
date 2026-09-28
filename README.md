@@ -45,6 +45,10 @@ Laboratório de criação e configuração de um banco de dados utilizando o Ama
 - Amazon RDS
 - DB Subnet Groups
 - Security Groups
+- Amazon VPC
+- Amazon EC2
+
+[Ver documentação](./03-rds-address-book/)
 
 ---
 
@@ -59,7 +63,3 @@ Laboratório de instalação e configuração da AWS Command Line Interface (AWS
 - AWS Identity and Access Management (IAM)
 
 [Ver documentação](https://github.com/laisrdrgs/cloud-labs/blob/main/04-aws-cli-install-config)
-- Amazon VPC
-- Amazon EC2
-
-[Ver documentação](./03-rds-address-book/)
