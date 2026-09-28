@@ -6,7 +6,7 @@
 
 ## 🇺🇸 English
 
-Repository dedicated to documenting my hands-on Cloud Computing studies, with a focus on AWS.
+A collection of hands-on Cloud Computing labs and practical exercises focused on AWS services, infrastructure, and core cloud concepts.
 
 ## Labs
 
@@ -74,7 +74,7 @@ Lab focused on installing and configuring the AWS Command Line Interface (AWS CL
 
 ## 🇧🇷 Português
 
-Repositório destinado à documentação dos meus estudos práticos em Cloud Computing, com foco em AWS.
+Coleção de laboratórios práticos e exercícios de Cloud Computing com foco em serviços, infraestrutura e conceitos fundamentais da AWS.
 
 ## Labs
 
