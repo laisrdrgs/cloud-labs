@@ -35,7 +35,7 @@ The following settings were applied:
 | Password reuse prevention             | Last 5 passwords |
 | Administrator-required password reset | Disabled         |
 
-![Configured password policy](./politica-de-senha.png)
+![Configured password policy](./password-policy.png)
 
 ## 2. IAM Users and Groups
 
@@ -49,7 +49,7 @@ The lab environment contains three IAM users and three IAM groups.
 
 The groups allow user permissions to be centrally managed according to their respective roles.
 
-![IAM groups](./grupos-iam.png)
+![IAM groups](./iam-groups.png)
 
 ## 3. Policies and Permissions
 
@@ -134,7 +134,7 @@ As seguintes configurações foram aplicadas:
 | Prevenção de reutilização            | Últimas 5 senhas |
 | Reset obrigatório pelo administrador | Desativado       |
 
-![Política de senha configurada](./politica-de-senha.png)
+![Política de senha configurada](./password-policy.png)
 
 ## 2. Usuários e Grupos IAM
 
@@ -148,7 +148,7 @@ O ambiente do laboratório possui três usuários IAM e três grupos IAM.
 
 Os grupos permitem que as permissões dos usuários sejam gerenciadas de forma centralizada, de acordo com suas respectivas funções.
 
-![Grupos IAM](./grupos-iam.png)
+![Grupos IAM](./iam-groups.png)
 
 ## 3. Políticas e Permissões
 
