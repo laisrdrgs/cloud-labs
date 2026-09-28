@@ -1,10 +1,10 @@
 # Lab — Amazon RDS and Address Book
 
-[🇺🇸 English](#-english) | [🇧🇷 Português](#-português)
+[English](#english) · [Português](#português)
 
 ---
 
-## 🇺🇸 English
+## English
 
 ## Objective
 
@@ -144,7 +144,7 @@ The lab provided hands-on practice with the following concepts:
 
 ---
 
-## 🇧🇷 Português
+## Português
 
 ## Objetivo
 
