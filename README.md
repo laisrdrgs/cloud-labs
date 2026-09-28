@@ -1,10 +1,10 @@
 # Cloud Labs
 
-[🇺🇸 English](#-english) | [🇧🇷 Português](#-português)
+[English](#english) · [Português](#português)
 
 ---
 
-## 🇺🇸 English
+## English
 
 A collection of hands-on Cloud Computing labs and practical exercises focused on AWS services, infrastructure, and core cloud concepts.
 
@@ -72,7 +72,7 @@ Lab focused on installing and configuring the AWS Command Line Interface (AWS CL
 
 ---
 
-## 🇧🇷 Português
+## Português
 
 Coleção de laboratórios práticos e exercícios de Cloud Computing com foco em serviços, infraestrutura e conceitos fundamentais da AWS.
 
