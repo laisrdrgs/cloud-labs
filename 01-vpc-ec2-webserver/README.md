@@ -1,4 +1,4 @@
-# Lab — VPC, Subnet, Security Group, and EC2
+# Lab — VPC, Subnets, Security Groups, and EC2
 
 [English](#english) · [Português](#português)
 
@@ -8,9 +8,9 @@
 
 ## Objective
 
-The objective of this lab was to practice creating and configuring a basic AWS infrastructure using a VPC, subnets, Security Groups, and an EC2 instance.
+The objective of this lab was to practice creating and configuring a basic AWS network infrastructure using a VPC, subnets, Security Groups, and an EC2 instance.
 
-At the end of the lab, the EC2 instance was configured to host a Web Server, allowing the web page to be accessed through a browser.
+At the end of the lab, the EC2 instance was configured to host a web server, allowing the application to be accessed through a web browser.
 
 ## Architecture
 
@@ -27,13 +27,13 @@ The public subnets were associated with the Public Route Table, while the privat
 
 The infrastructure also includes an Internet Gateway and a NAT Gateway to provide the required internet connectivity for resources within the VPC.
 
-The EC2 instance was launched in Public Subnet 2, using the Web Security Group, and configured to run a Web Server.
+The EC2 instance was launched in Public Subnet 2, using the Web Security Group, and configured to run a web server.
 
 ## Services and Resources Used
 
 * **Amazon VPC** — creation of the virtual network
-* **Amazon EC2** — creation of the server
-* **Security Group** — control of inbound and outbound traffic
+* **Amazon EC2** — creation of the web server
+* **Security Groups** — control of inbound and outbound traffic
 * **Subnets** — organization of resources within the VPC
 * **Internet Gateway** — communication between the VPC and the internet
 * **NAT Gateway** — internet access for resources in private subnets
@@ -68,7 +68,7 @@ As a result, the VPC had public and private subnets distributed across two Avail
 
 The `Web Security Group` was created for the `Lab VPC`.
 
-An inbound rule was configured to allow HTTP traffic on port 80 from Anywhere IPv4, enabling access to the Web Server over the internet.
+An inbound rule was configured to allow HTTP traffic on port 80 from Anywhere IPv4, enabling access to the web server over the internet.
 
 ### 5. EC2 Instance Creation
 
@@ -92,7 +92,7 @@ Finally, the `httpd` service was enabled to start automatically and started on t
 
 ### 7. Access Test
 
-After the instance was initialized and the status checks passed, the EC2 public IPv4 address was used to access the Web Server through a browser.
+After the instance was initialized and the status checks passed, the EC2 public IPv4 address was used to access the web server through a browser.
 
 The web page was successfully accessed.
 
@@ -100,7 +100,7 @@ The web page was successfully accessed.
 
 ## Result
 
-At the end of the lab, a basic AWS network infrastructure was successfully created, and an EC2 instance was used to host a Web Server, allowing the web page to be accessed through a browser.
+At the end of the lab, a basic AWS network infrastructure was successfully created, and an EC2 instance was used to host a web server, allowing the application to be accessed through a browser.
 
 ---
 
@@ -108,9 +108,9 @@ At the end of the lab, a basic AWS network infrastructure was successfully creat
 
 ## Objetivo
 
-Este laboratório teve como objetivo praticar a criação e configuração de uma infraestrutura básica na AWS, utilizando uma VPC, subnets, Security Groups e uma instância EC2.
+Este laboratório teve como objetivo praticar a criação e configuração de uma infraestrutura básica de rede na AWS, utilizando uma VPC, subnets, Security Groups e uma instância EC2.
 
-Ao final do laboratório, a instância EC2 foi configurada para hospedar um Web Server, permitindo o acesso à página através de um navegador.
+Ao final do laboratório, a instância EC2 foi configurada para hospedar um web server, permitindo o acesso à aplicação através de um navegador.
 
 ## Arquitetura
 
@@ -127,13 +127,13 @@ As subnets públicas foram associadas à Public Route Table, enquanto as subnets
 
 A infraestrutura também possui um Internet Gateway e um NAT Gateway para fornecer a conectividade necessária com a internet aos recursos dentro da VPC.
 
-A instância EC2 foi lançada na Public Subnet 2, utilizando o Web Security Group, e configurada para executar um Web Server.
+A instância EC2 foi lançada na Public Subnet 2, utilizando o Web Security Group, e configurada para executar um web server.
 
 ## Serviços e Recursos Utilizados
 
 * **Amazon VPC** — criação da rede virtual
-* **Amazon EC2** — criação do servidor
-* **Security Group** — controle do tráfego de entrada e saída
+* **Amazon EC2** — criação do web server
+* **Security Groups** — controle do tráfego de entrada e saída
 * **Subnets** — organização dos recursos dentro da VPC
 * **Internet Gateway** — comunicação entre a VPC e a internet
 * **NAT Gateway** — acesso à internet para recursos em subnets privadas
@@ -168,7 +168,7 @@ Com isso, a VPC passou a possuir subnets públicas e privadas distribuídas em d
 
 Foi criado o Security Group `Web Security Group` para a `Lab VPC`.
 
-Foi configurada uma regra de entrada permitindo tráfego HTTP na porta 80 proveniente de Anywhere IPv4, possibilitando o acesso ao Web Server através da internet.
+Foi configurada uma regra de entrada permitindo tráfego HTTP na porta 80 proveniente de Anywhere IPv4, possibilitando o acesso ao web server através da internet.
 
 ### 5. Criação da Instância EC2
 
@@ -192,7 +192,7 @@ Por fim, o serviço `httpd` foi habilitado para iniciar automaticamente e inicia
 
 ### 7. Teste de Acesso
 
-Após a inicialização da instância e a aprovação dos status checks, o endereço IPv4 público da EC2 foi utilizado para acessar o Web Server através do navegador.
+Após a inicialização da instância e a aprovação dos status checks, o endereço IPv4 público da EC2 foi utilizado para acessar o web server através do navegador.
 
 A página foi acessada com sucesso.
 
@@ -200,4 +200,4 @@ A página foi acessada com sucesso.
 
 ## Resultado
 
-Ao final do laboratório, foi possível criar uma infraestrutura básica de rede na AWS e utilizar uma instância EC2 para hospedar um Web Server, permitindo o acesso à página através de um navegador.
+Ao final do laboratório, foi possível criar uma infraestrutura básica de rede na AWS e utilizar uma instância EC2 para hospedar um web server, permitindo o acesso à aplicação através de um navegador.
