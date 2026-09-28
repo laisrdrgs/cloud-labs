@@ -45,6 +45,20 @@ Laboratório de criação e configuração de um banco de dados utilizando o Ama
 - Amazon RDS
 - DB Subnet Groups
 - Security Groups
+
+---
+
+### AWS CLI, EC2 e IAM
+
+Laboratório de instalação e configuração da AWS Command Line Interface (AWS CLI) em uma instância EC2, utilizando o IAM para autenticação e consulta de usuários e políticas através da linha de comando.
+
+**Serviços utilizados:**
+
+- AWS Command Line Interface (AWS CLI)
+- Amazon EC2
+- AWS Identity and Access Management (IAM)
+
+[Ver documentação](https://github.com/laisrdrgs/cloud-labs/blob/main/04-aws-cli-install-config)
 - Amazon VPC
 - Amazon EC2
 
