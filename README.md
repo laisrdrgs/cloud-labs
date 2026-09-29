@@ -68,7 +68,25 @@ Lab focused on installing and configuring the AWS Command Line Interface (AWS CL
 * Amazon EC2
 * AWS Identity and Access Management (IAM)
 
-[View Documentation](./04-aws-cli-install-config/)
+[View Documentation](./04-cli-install-config/)
+
+---
+
+### 05. AWS Systems Manager
+
+Lab focused on using AWS Systems Manager to manage and interact with an EC2 instance, including inventory collection, remote command execution, application configuration, and browser-based instance access.
+
+**Services and Resources Used:**
+
+* AWS Systems Manager
+* Fleet Manager
+* Run Command
+* Parameter Store
+* Session Manager
+* Amazon EC2
+* Amazon VPC
+
+[View Documentation](./05-systems-manager/)
 
 ---
 
@@ -136,4 +154,22 @@ Laboratório focado na instalação e configuração da AWS Command Line Interfa
 * Amazon EC2
 * AWS Identity and Access Management (IAM)
 
-[Ver Documentação](./04-aws-cli-install-config/)
+[Ver Documentação](./04-cli-install-config/)
+
+---
+
+### 05. AWS Systems Manager
+
+Laboratório focado na utilização do AWS Systems Manager para gerenciar e interagir com uma instância EC2, incluindo coleta de inventário, execução remota de comandos, configuração de aplicações e acesso à instância por meio do navegador.
+
+**Serviços e Recursos Utilizados:**
+
+* AWS Systems Manager
+* Fleet Manager
+* Run Command
+* Parameter Store
+* Session Manager
+* Amazon EC2
+* Amazon VPC
+
+[Ver Documentação](./05-systems-manager/)
