@@ -10,30 +10,28 @@
 
 The objective of this lab was to practice creating and configuring a relational database using Amazon RDS and integrating it with a web application.
 
-Building on the network infrastructure created in the previous lab, a dedicated Security Group for the database, a DB Subnet Group, and an Amazon RDS for MySQL instance with a Multi-AZ deployment were configured.
+Building on the network infrastructure created in the previous lab, a dedicated Security Group, a DB Subnet Group, and an Amazon RDS for MySQL instance were configured.
 
 At the end of the lab, the Address Book application was configured to use the RDS database and tested through a web browser.
 
 ## Architecture
 
-The lab uses the network infrastructure previously created in the `Lab VPC`, which contains public and private subnets distributed across two Availability Zones.
+The lab uses the `Lab VPC` created in the previous lab, with public and private subnets distributed across two Availability Zones.
 
 The two private subnets were used for the database:
 
 * Private Subnet 1 — `10.0.1.0/24`
 * Private Subnet 2 — `10.0.3.0/24`
 
-Both subnets were associated with the `DB Subnet Group`, allowing Amazon RDS to use the selected network resources across different Availability Zones.
+Both private subnets were added to the `DB Subnet Group`.
 
-The `DB Security Group` was created and configured to allow MySQL connections on port `3306` only from resources associated with the `Web Security Group`.
+The `DB Security Group` was configured to allow MySQL connections on port `3306` from resources associated with the `Web Security Group`.
 
-The RDS instance was configured without public access and using the `DB Security Group`.
+The RDS instance was configured without public access and associated with the `DB Security Group`.
 
-The Multi-AZ deployment was configured with two database instances across Availability Zones, providing a primary and standby database environment.
+The database was configured using a Multi-AZ deployment with two database instances.
 
-The application hosted on the EC2 instance communicates with the RDS database through port `3306`.
-
-In simplified form:
+The application running on the EC2 instance communicates with the RDS database through port `3306`.
 
 ```mermaid
 flowchart TD
@@ -57,95 +55,85 @@ flowchart TD
 
 ## Services and Resources Used
 
-* **Amazon RDS** — creation and operation of the MySQL database
-* **DB Subnet Group** — definition of the private subnets used by RDS
-* **Security Groups** — control of application and database traffic
-* **Amazon VPC** — virtual network where the lab resources are configured
+* **Amazon RDS** — used to create and run the MySQL database
+* **DB Subnet Group** — used to define the private subnets for the RDS instance
+* **Security Groups** — used to control application and database traffic
+* **Amazon VPC** — network used by the lab resources
 * **Amazon EC2** — server hosting the web application
-* **Address Book** — application used to validate database connectivity and data persistence
+* **Address Book** — web application used to test the database connection and data storage
 
 ## Steps Performed
 
-### 1. Database Security Group Creation
+### 1. Database Security Group
 
 The `DB Security Group` was created in the `Lab VPC`.
 
 An inbound rule was configured to allow **MySQL/Aurora traffic on port `3306`**, with the `Web Security Group` specified as the source.
 
-This configuration restricts inbound database connections to resources associated with the `Web Security Group`.
-
 ![Database Security Group](./db-security-group.png)
 
-### 2. DB Subnet Group Creation
+### 2. DB Subnet Group
 
-The `DB Subnet Group` was created in the `Lab VPC`.
-
-The group was configured using private subnets distributed across two Availability Zones:
+The `DB Subnet Group` was created using the two private subnets:
 
 * Private Subnet 1 — `10.0.1.0/24`
 * Private Subnet 2 — `10.0.3.0/24`
 
-This configuration provides Amazon RDS with the selected private subnets for database deployment.
+The subnets are distributed across two Availability Zones.
 
 ![DB Subnet Group Details](./subnet-group-details.png)
 
-### 3. RDS Instance Creation and Configuration
+### 3. RDS Instance
 
 The `lab-db` instance was created using **Amazon RDS for MySQL**.
 
-The main configuration settings were:
+Main configuration:
 
-* **Engine:** MySQL
-* **Template:** Dev/Test
-* **Deployment:** Multi-AZ DB instance deployment — 2 instances
-* **DB instance identifier:** `lab-db`
-* **Master username:** `main`
-* **Instance class:** `db.t3.medium`
-* **Storage type:** General Purpose SSD (gp3)
-* **Allocated storage:** `20 GiB`
-* **VPC:** `Lab VPC`
-* **DB Subnet Group:** `DB Subnet Group`
-* **Public access:** No
-* **Security Group:** `DB Security Group`
-* **Initial database name:** `lab`
+| Setting                | Value                                         |
+| ---------------------- | --------------------------------------------- |
+| Engine                 | MySQL                                         |
+| Template               | Dev/Test                                      |
+| Deployment             | Multi-AZ DB instance deployment — 2 instances |
+| DB instance identifier | `lab-db`                                      |
+| Master username        | `main`                                        |
+| Instance class         | `db.t3.medium`                                |
+| Storage type           | General Purpose SSD (gp3)                     |
+| Allocated storage      | `20 GiB`                                      |
+| VPC                    | `Lab VPC`                                     |
+| DB Subnet Group        | `DB Subnet Group`                             |
+| Public access          | No                                            |
+| Security Group         | `DB Security Group`                           |
+| Initial database name  | `lab`                                         |
 
-The instance was created without public access and configured to use the dedicated database Security Group.
+After the database was created, the instance was monitored until it became available.
 
-After the instance was created, its status was monitored until it became available. The instance endpoint was then obtained to configure the application.
+The instance endpoint was then obtained to configure the Address Book application.
 
 ![RDS Database Running](./db.png)
 
-### 4. Address Book Application Configuration and Testing
+### 4. Address Book Configuration and Testing
 
-The web application hosted on the EC2 instance was accessed through a browser and configured to use the previously created RDS instance.
+The Address Book application running on the EC2 instance was accessed through a web browser.
 
-The following information was provided in the application:
+The application was configured using the RDS connection information:
 
-* **Endpoint:** endpoint of the `lab-db` instance
-* **Database:** `lab`
-* **Username:** `main`
+| Setting  | Value                             |
+| -------- | --------------------------------- |
+| Endpoint | Endpoint of the `lab-db` instance |
+| Database | `lab`                             |
+| Username | `main`                            |
 
-After the configuration was submitted, the application began using the RDS database to store Address Book information.
+After the configuration was submitted, the application was able to use the RDS database to store Address Book information.
 
 ![Address Book Application Running](./running-application.png)
 
 ## Result
 
-At the end of the lab, an Amazon RDS for MySQL database was configured using a Multi-AZ deployment, a DB Subnet Group with private subnets distributed across two Availability Zones, and a dedicated Security Group to control database access.
+The lab was completed by configuring an Amazon RDS for MySQL database with a Multi-AZ deployment, a DB Subnet Group using private subnets, and a dedicated Security Group.
 
-The Address Book application was successfully configured to use the RDS database, demonstrating communication between an application running on EC2 and a database running on Amazon RDS.
+The Address Book application running on EC2 was successfully configured to use the RDS database.
 
-The lab provided hands-on experience with the following concepts:
-
-* Amazon RDS
-* MySQL on AWS
-* DB Subnet Groups
-* Security Groups
-* Private database access
-* Application-to-database communication
-* Multi-AZ environments
-* Data persistence
-* Integration between AWS services
+The final test confirmed communication between the web application and the database.
 
 ---
 
@@ -153,32 +141,30 @@ The lab provided hands-on experience with the following concepts:
 
 ## Objetivo
 
-Este laboratório teve como objetivo praticar a criação e configuração de um banco de dados relacional utilizando o Amazon RDS e sua integração com uma aplicação web.
+O objetivo deste laboratório foi praticar a criação e configuração de um banco de dados relacional utilizando o Amazon RDS e sua integração com uma aplicação web.
 
-A partir da infraestrutura de rede criada no laboratório anterior, foram configurados um Security Group específico para o banco de dados, um DB Subnet Group e uma instância Amazon RDS for MySQL com implantação Multi-AZ.
+A partir da infraestrutura de rede criada no laboratório anterior, foram configurados um Security Group específico, um DB Subnet Group e uma instância Amazon RDS for MySQL.
 
 Ao final do laboratório, a aplicação Address Book foi configurada para utilizar o banco de dados RDS e testada através de um navegador.
 
 ## Arquitetura
 
-O laboratório utiliza a infraestrutura de rede criada anteriormente na `Lab VPC`, que possui subnets públicas e privadas distribuídas em duas Availability Zones.
+O laboratório utiliza a `Lab VPC` criada no laboratório anterior, com subnets públicas e privadas distribuídas em duas Availability Zones.
 
-Para o banco de dados, foram utilizadas as duas subnets privadas:
+As duas subnets privadas foram utilizadas para o banco de dados:
 
 * Private Subnet 1 — `10.0.1.0/24`
 * Private Subnet 2 — `10.0.3.0/24`
 
-As duas subnets foram associadas ao `DB Subnet Group`, permitindo que o Amazon RDS utilize os recursos de rede selecionados em diferentes Availability Zones.
+As duas subnets foram adicionadas ao `DB Subnet Group`.
 
-Foi criado o `DB Security Group`, configurado para permitir conexões MySQL na porta `3306` somente a partir de recursos associados ao `Web Security Group`.
+O `DB Security Group` foi configurado para permitir conexões MySQL na porta `3306` a partir de recursos associados ao `Web Security Group`.
 
-A instância RDS foi configurada sem acesso público e utilizando o `DB Security Group`.
+A instância RDS foi configurada sem acesso público e associada ao `DB Security Group`.
 
-A implantação Multi-AZ foi configurada com duas instâncias de banco de dados distribuídas entre Availability Zones, proporcionando um ambiente com instância primária e standby.
+O banco de dados foi configurado utilizando uma implantação Multi-AZ com duas instâncias de banco de dados.
 
-A aplicação hospedada na instância EC2 se comunica com o banco de dados RDS através da porta `3306`.
-
-De forma simplificada:
+A aplicação executada na instância EC2 se comunica com o banco de dados RDS através da porta `3306`.
 
 ```mermaid
 flowchart TD
@@ -202,92 +188,82 @@ flowchart TD
 
 ## Serviços e Recursos Utilizados
 
-* **Amazon RDS** — criação e execução do banco de dados MySQL
-* **DB Subnet Group** — definição das subnets privadas utilizadas pelo RDS
-* **Security Groups** — controle do tráfego da aplicação e do banco de dados
-* **Amazon VPC** — rede virtual onde os recursos do laboratório estão configurados
+* **Amazon RDS** — utilizado para criar e executar o banco de dados MySQL
+* **DB Subnet Group** — utilizado para definir as subnets privadas utilizadas pela instância RDS
+* **Security Groups** — utilizados para controlar o tráfego da aplicação e do banco de dados
+* **Amazon VPC** — rede utilizada pelos recursos do laboratório
 * **Amazon EC2** — servidor que hospeda a aplicação web
-* **Address Book** — aplicação utilizada para validar a conexão com o banco de dados e a persistência dos dados
+* **Address Book** — aplicação web utilizada para testar a conexão e o armazenamento de dados no banco
 
 ## Etapas Realizadas
 
-### 1. Criação do Security Group do Banco de Dados
+### 1. Security Group do Banco de Dados
 
 Foi criado o `DB Security Group` na `Lab VPC`.
 
-Foi configurada uma regra de entrada para permitir tráfego **MySQL/Aurora na porta `3306`**, tendo como origem o `Web Security Group`.
+Foi configurada uma regra de entrada permitindo **tráfego MySQL/Aurora na porta `3306`**, tendo o `Web Security Group` como origem.
 
-Essa configuração restringe as conexões de entrada ao banco de dados aos recursos associados ao `Web Security Group`.
+![Security Group do Banco de Dados](./db-security-group.png)
 
-![Security Group do banco de dados](./db-security-group.png)
+### 2. DB Subnet Group
 
-### 2. Criação do DB Subnet Group
-
-Foi criado o `DB Subnet Group` na `Lab VPC`.
-
-O grupo foi configurado utilizando subnets privadas distribuídas em duas Availability Zones:
+Foi criado o `DB Subnet Group` utilizando as duas subnets privadas:
 
 * Private Subnet 1 — `10.0.1.0/24`
 * Private Subnet 2 — `10.0.3.0/24`
 
-Essa configuração fornece ao Amazon RDS as subnets privadas selecionadas para a implantação do banco de dados.
+As subnets estão distribuídas entre duas Availability Zones.
 
 ![Detalhes do DB Subnet Group](./subnet-group-details.png)
 
-### 3. Criação e Configuração da Instância RDS
+### 3. Instância RDS
 
 Foi criada a instância `lab-db` utilizando o **Amazon RDS for MySQL**.
 
-As principais configurações utilizadas foram:
+Configuração principal:
 
-* **Engine:** MySQL
-* **Template:** Dev/Test
-* **Deployment:** Multi-AZ DB instance deployment — 2 instances
-* **DB instance identifier:** `lab-db`
-* **Master username:** `main`
-* **Instance class:** `db.t3.medium`
-* **Storage type:** General Purpose SSD (gp3)
-* **Allocated storage:** `20 GiB`
-* **VPC:** `Lab VPC`
-* **DB Subnet Group:** `DB Subnet Group`
-* **Public access:** No
-* **Security Group:** `DB Security Group`
-* **Initial database name:** `lab`
+| Configuração           | Valor                                         |
+| ---------------------- | --------------------------------------------- |
+| Engine                 | MySQL                                         |
+| Template               | Dev/Test                                      |
+| Deployment             | Multi-AZ DB instance deployment — 2 instances |
+| DB instance identifier | `lab-db`                                      |
+| Master username        | `main`                                        |
+| Instance class         | `db.t3.medium`                                |
+| Storage type           | General Purpose SSD (gp3)                     |
+| Allocated storage      | `20 GiB`                                      |
+| VPC                    | `Lab VPC`                                     |
+| DB Subnet Group        | `DB Subnet Group`                             |
+| Public access          | No                                            |
+| Security Group         | `DB Security Group`                           |
+| Initial database name  | `lab`                                         |
 
-A instância foi criada sem acesso público e configurada para utilizar o Security Group específico do banco de dados.
+Após a criação do banco de dados, a instância foi acompanhada até ficar disponível.
 
-Após a criação, a instância foi acompanhada até ficar disponível para utilização. Em seguida, o endpoint da instância foi obtido para configurar a aplicação.
+Em seguida, o endpoint da instância foi obtido para configurar a aplicação Address Book.
 
-![Banco de dados RDS em execução](./db.png)
+![Banco de Dados RDS em Execução](./db.png)
 
-### 4. Configuração e Teste da Aplicação Address Book
+### 4. Configuração e Teste do Address Book
 
-A aplicação web hospedada na instância EC2 foi acessada através do navegador e configurada para utilizar a instância RDS criada anteriormente.
+A aplicação Address Book executada na instância EC2 foi acessada através de um navegador.
 
-Foram informados na aplicação:
+A aplicação foi configurada utilizando as informações de conexão do RDS:
 
-* **Endpoint:** endpoint da instância `lab-db`
-* **Database:** `lab`
-* **Username:** `main`
+| Configuração | Valor                          |
+| ------------ | ------------------------------ |
+| Endpoint     | Endpoint da instância `lab-db` |
+| Database     | `lab`                          |
+| Username     | `main`                         |
 
-Após o envio das configurações, a aplicação passou a utilizar o banco de dados RDS para armazenar as informações do Address Book.
+Após o envio da configuração, a aplicação conseguiu utilizar o banco de dados RDS para armazenar as informações do Address Book.
 
-![Address Book funcionando](./running-application.png)
+![Aplicação Address Book em Execução](./running-application.png)
 
 ## Resultado
 
-Ao final do laboratório, foi possível configurar um banco de dados Amazon RDS for MySQL utilizando uma implantação Multi-AZ, um DB Subnet Group com subnets privadas distribuídas em duas Availability Zones e um Security Group específico para controlar o acesso ao banco de dados.
+O laboratório foi concluído com a configuração de um banco de dados Amazon RDS for MySQL utilizando uma implantação Multi-AZ, um DB Subnet Group com subnets privadas e um Security Group específico.
 
-A aplicação Address Book foi configurada com sucesso para utilizar o banco de dados RDS, demonstrando a comunicação entre uma aplicação executada em uma instância EC2 e um banco de dados executado no Amazon RDS.
+A aplicação Address Book executada na EC2 foi configurada com sucesso para utilizar o banco de dados RDS.
 
-O laboratório proporcionou experiência prática com os seguintes conceitos:
-
-* Amazon RDS
-* MySQL na AWS
-* DB Subnet Groups
-* Security Groups
-* Acesso privado ao banco de dados
-* Comunicação entre aplicação e banco de dados
-* Ambientes Multi-AZ
-* Persistência de dados
-* Integração entre serviços AWS
+O teste final confirmou a comunicação entre a aplicação web e o banco de dados.
