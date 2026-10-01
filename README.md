@@ -6,20 +6,24 @@
 
 ## English
 
-A collection of hands-on Cloud Computing labs and practical exercises focused on AWS services, infrastructure, and core cloud concepts.
+This repository contains hands-on Cloud Computing labs developed during my AWS and Cloud learning journey.
+
+The labs document practical exercises involving AWS infrastructure, identity and access management, databases, command-line tools, instance management, and static website deployment.
+
+Each lab includes the resources used, the steps performed, relevant configurations, and the results obtained during the exercise.
 
 ## Labs
 
 ### 01. VPC, Subnets, Security Groups, and EC2
 
-Lab focused on creating and configuring AWS network infrastructure, including an EC2 instance configured to host a web server.
+Hands-on lab focused on creating and configuring basic AWS network infrastructure and launching an EC2 instance in a public subnet to host a web server.
 
 **Services and Resources Used:**
 
 * Amazon VPC
 * Amazon EC2
-* Security Groups
 * Subnets
+* Security Groups
 * Internet Gateway
 * NAT Gateway
 * Route Tables
@@ -30,7 +34,7 @@ Lab focused on creating and configuring AWS network infrastructure, including an
 
 ### 02. IAM, Users, Groups, and Policies
 
-Lab focused on AWS Identity and Access Management (IAM), covering the configuration of password policies, users, groups, and access permissions for AWS services.
+Hands-on lab focused on AWS Identity and Access Management (IAM), including password policies, users, groups, managed policies, inline policies, and permission testing with Amazon S3 and Amazon EC2.
 
 **Services and Resources Used:**
 
@@ -44,11 +48,14 @@ Lab focused on AWS Identity and Access Management (IAM), covering the configurat
 
 ### 03. Amazon RDS and Address Book
 
-Lab focused on creating and configuring a database using Amazon RDS, including the configuration of a DB Subnet Group and Security Group, as well as integration with an Address Book application.
+Hands-on lab focused on creating and configuring an Amazon RDS MySQL database and connecting it to an Address Book application running on EC2.
+
+The lab included the configuration of a DB Subnet Group and a Security Group for database access.
 
 **Services and Resources Used:**
 
 * Amazon RDS
+* MySQL
 * DB Subnet Groups
 * Security Groups
 * Amazon VPC
@@ -60,13 +67,16 @@ Lab focused on creating and configuring a database using Amazon RDS, including t
 
 ### 04. AWS CLI, EC2, and IAM
 
-Lab focused on installing and configuring the AWS Command Line Interface (AWS CLI) on an EC2 instance, using IAM authentication to query users and policies through the command line.
+Hands-on lab focused on installing and configuring the AWS Command Line Interface (AWS CLI) on an EC2 instance and using it to interact with IAM resources.
+
+The lab included querying IAM users and policies and retrieving a policy version through the command line.
 
 **Services and Resources Used:**
 
 * AWS Command Line Interface (AWS CLI)
 * Amazon EC2
 * AWS Identity and Access Management (IAM)
+* SSH
 
 [View Documentation](./04-cli-install-config/)
 
@@ -74,7 +84,9 @@ Lab focused on installing and configuring the AWS Command Line Interface (AWS CL
 
 ### 05. AWS Systems Manager
 
-Lab focused on using AWS Systems Manager to manage and interact with an EC2 instance, including inventory collection, remote command execution, application configuration, and browser-based instance access.
+Hands-on lab focused on using AWS Systems Manager to manage and interact with an EC2 instance without relying on a traditional SSH session.
+
+The lab included inventory collection, Run Command, Parameter Store, Session Manager, and application configuration.
 
 **Services and Resources Used:**
 
@@ -92,9 +104,9 @@ Lab focused on using AWS Systems Manager to manage and interact with an EC2 inst
 
 ### 06. Creating a Website on Amazon S3
 
-Lab focused on using the AWS Command Line Interface (AWS CLI) from an EC2 instance to create and configure an Amazon S3 bucket and deploy a static website.
+Hands-on lab focused on using the AWS CLI from an EC2 instance to create and configure an Amazon S3 bucket and deploy a static website.
 
-The lab also covered IAM user creation and permissions, S3 public access configuration, static website hosting, object uploads, and the creation of a Bash script to make website updates repeatable.
+The lab included IAM user configuration, S3 access settings, website hosting, object uploads, and a Bash script for repeating website updates.
 
 **Services and Resources Used:**
 
@@ -113,20 +125,24 @@ The lab also covered IAM user creation and permissions, S3 public access configu
 
 ## Português
 
-Coleção de laboratórios práticos e exercícios de Cloud Computing com foco em serviços, infraestrutura e conceitos fundamentais da AWS.
+Este repositório reúne laboratórios práticos de Cloud Computing desenvolvidos durante minha jornada de aprendizado em AWS e Cloud.
+
+Os laboratórios documentam exercícios práticos envolvendo infraestrutura na AWS, gerenciamento de identidade e acesso, bancos de dados, ferramentas de linha de comando, gerenciamento de instâncias e deploy de websites estáticos.
+
+Cada laboratório apresenta os recursos utilizados, as etapas realizadas, as principais configurações e os resultados obtidos durante o exercício.
 
 ## Labs
 
 ### 01. VPC, Subnets, Security Groups e EC2
 
-Laboratório focado na criação e configuração de uma infraestrutura de rede na AWS, incluindo uma instância EC2 configurada para hospedar um web server.
+Laboratório prático focado na criação e configuração de uma infraestrutura básica de rede na AWS e no lançamento de uma instância EC2 em uma subnet pública para hospedar um web server.
 
 **Serviços e Recursos Utilizados:**
 
 * Amazon VPC
 * Amazon EC2
-* Security Groups
 * Subnets
+* Security Groups
 * Internet Gateway
 * NAT Gateway
 * Route Tables
@@ -137,7 +153,7 @@ Laboratório focado na criação e configuração de uma infraestrutura de rede 
 
 ### 02. IAM, Usuários, Grupos e Políticas
 
-Laboratório focado no AWS Identity and Access Management (IAM), abordando a configuração de políticas de senha, usuários, grupos e permissões de acesso aos serviços da AWS.
+Laboratório prático focado no AWS Identity and Access Management (IAM), incluindo políticas de senha, usuários, grupos, políticas gerenciadas, políticas inline e testes de permissões com Amazon S3 e Amazon EC2.
 
 **Serviços e Recursos Utilizados:**
 
@@ -151,11 +167,14 @@ Laboratório focado no AWS Identity and Access Management (IAM), abordando a con
 
 ### 03. Amazon RDS e Address Book
 
-Laboratório focado na criação e configuração de um banco de dados utilizando o Amazon RDS, incluindo a configuração de um DB Subnet Group e Security Group, além da integração com uma aplicação Address Book.
+Laboratório prático focado na criação e configuração de um banco de dados MySQL no Amazon RDS e na conexão com uma aplicação Address Book executada em uma instância EC2.
+
+O laboratório incluiu a configuração de um DB Subnet Group e de um Security Group para acesso ao banco de dados.
 
 **Serviços e Recursos Utilizados:**
 
 * Amazon RDS
+* MySQL
 * DB Subnet Groups
 * Security Groups
 * Amazon VPC
@@ -167,13 +186,16 @@ Laboratório focado na criação e configuração de um banco de dados utilizand
 
 ### 04. AWS CLI, EC2 e IAM
 
-Laboratório focado na instalação e configuração da AWS Command Line Interface (AWS CLI) em uma instância EC2, utilizando autenticação do IAM para consultar usuários e políticas por meio da linha de comando.
+Laboratório prático focado na instalação e configuração da AWS Command Line Interface (AWS CLI) em uma instância EC2 e na utilização da ferramenta para interagir com recursos do IAM.
+
+O laboratório incluiu consultas de usuários e políticas do IAM e a recuperação de uma versão de política por meio da linha de comando.
 
 **Serviços e Recursos Utilizados:**
 
 * AWS Command Line Interface (AWS CLI)
 * Amazon EC2
 * AWS Identity and Access Management (IAM)
+* SSH
 
 [Ver Documentação](./04-cli-install-config/)
 
@@ -181,7 +203,9 @@ Laboratório focado na instalação e configuração da AWS Command Line Interfa
 
 ### 05. AWS Systems Manager
 
-Laboratório focado na utilização do AWS Systems Manager para gerenciar e interagir com uma instância EC2, incluindo coleta de inventário, execução remota de comandos, configuração de aplicações e acesso à instância por meio do navegador.
+Laboratório prático focado na utilização do AWS Systems Manager para gerenciar e interagir com uma instância EC2 sem depender de uma sessão SSH tradicional.
+
+O laboratório incluiu coleta de inventário, Run Command, Parameter Store, Session Manager e configuração de uma aplicação.
 
 **Serviços e Recursos Utilizados:**
 
@@ -199,9 +223,9 @@ Laboratório focado na utilização do AWS Systems Manager para gerenciar e inte
 
 ### 06. Criação de um Website no Amazon S3
 
-Laboratório focado na utilização da AWS Command Line Interface (AWS CLI) a partir de uma instância EC2 para criar e configurar um bucket Amazon S3 e realizar o deploy de um website estático.
+Laboratório prático focado na utilização da AWS CLI a partir de uma instância EC2 para criar e configurar um bucket Amazon S3 e realizar o deploy de um website estático.
 
-O laboratório também abordou a criação e configuração de usuários e permissões do IAM, configuração do acesso público do S3, hospedagem de website estático, upload de objetos e criação de um script Bash para tornar as atualizações do website repetíveis.
+O laboratório incluiu a configuração de usuário e permissões no IAM, configurações de acesso do S3, hospedagem do website, upload de objetos e criação de um script Bash para repetir as atualizações do website.
 
 **Serviços e Recursos Utilizados:**
 
