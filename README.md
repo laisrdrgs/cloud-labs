@@ -214,4 +214,4 @@ O laboratório também abordou a criação e configuração de usuários e permi
 * S3 Bucket ACLs
 * Bash
 
-[Ver Documentação](./06-s3-static-website/)
+[Ver Documentação](./06-s3-website/)
