@@ -107,7 +107,7 @@ The lab also covered IAM user creation and permissions, S3 public access configu
 * S3 Bucket ACLs
 * Bash
 
-[View Documentation](./06-s3-static-website/)
+[View Documentation](./06-s3-website/)
 
 ---
 
