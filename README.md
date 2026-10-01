@@ -90,6 +90,27 @@ Lab focused on using AWS Systems Manager to manage and interact with an EC2 inst
 
 ---
 
+### 06. Creating a Website on Amazon S3
+
+Lab focused on using the AWS Command Line Interface (AWS CLI) from an EC2 instance to create and configure an Amazon S3 bucket and deploy a static website.
+
+The lab also covered IAM user creation and permissions, S3 public access configuration, static website hosting, object uploads, and the creation of a Bash script to make website updates repeatable.
+
+**Services and Resources Used:**
+
+* Amazon S3
+* AWS Command Line Interface (AWS CLI)
+* AWS Identity and Access Management (IAM)
+* Amazon EC2
+* AWS Systems Manager Session Manager
+* S3 Static Website Hosting
+* S3 Bucket ACLs
+* Bash
+
+[View Documentation](./06-s3-static-website/)
+
+---
+
 ## Português
 
 Coleção de laboratórios práticos e exercícios de Cloud Computing com foco em serviços, infraestrutura e conceitos fundamentais da AWS.
@@ -173,3 +194,24 @@ Laboratório focado na utilização do AWS Systems Manager para gerenciar e inte
 * Amazon VPC
 
 [Ver Documentação](./05-systems-manager/)
+
+---
+
+### 06. Criação de um Website no Amazon S3
+
+Laboratório focado na utilização da AWS Command Line Interface (AWS CLI) a partir de uma instância EC2 para criar e configurar um bucket Amazon S3 e realizar o deploy de um website estático.
+
+O laboratório também abordou a criação e configuração de usuários e permissões do IAM, configuração do acesso público do S3, hospedagem de website estático, upload de objetos e criação de um script Bash para tornar as atualizações do website repetíveis.
+
+**Serviços e Recursos Utilizados:**
+
+* Amazon S3
+* AWS Command Line Interface (AWS CLI)
+* AWS Identity and Access Management (IAM)
+* Amazon EC2
+* AWS Systems Manager Session Manager
+* S3 Static Website Hosting
+* S3 Bucket ACLs
+* Bash
+
+[Ver Documentação](./06-s3-static-website/)
