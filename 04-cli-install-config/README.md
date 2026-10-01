@@ -16,11 +16,9 @@ The `lab_policy` policy was also retrieved through the AWS CLI using its default
 
 ## Architecture
 
-The infrastructure used in this lab consisted of an EC2 instance accessed remotely through SSH.
+The lab used an EC2 instance accessed remotely through SSH.
 
-The AWS CLI was installed and configured on the instance to make API calls to the AWS account. The CLI was then used to query IAM information, including users, policies, and policy versions.
-
-The architecture can be represented as follows:
+The AWS CLI was installed and configured on the EC2 instance to interact with AWS IAM. The CLI was then used to query IAM users, policies, and policy versions.
 
 ```mermaid
 flowchart LR
@@ -46,7 +44,7 @@ flowchart LR
 
 An SSH connection was established to the EC2 instance provided by the lab.
 
-After authentication, the instance terminal was accessed and the commands required to perform the activities were executed.
+After authentication, the instance terminal was accessed and the commands required for the lab activities were executed.
 
 ![SSH connection to the instance](./login.png)
 
@@ -54,7 +52,7 @@ After authentication, the instance terminal was accessed and the commands requir
 
 The AWS CLI was installed directly on the EC2 instance.
 
-First, the installer was downloaded using `curl`:
+The installer was downloaded using `curl`:
 
 ```bash
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -72,13 +70,13 @@ The installation was performed with:
 sudo ./aws/install
 ```
 
-After installation, the following command was used to verify that the AWS CLI was available on the instance:
+After installation, the following command was used to verify that the AWS CLI was available:
 
 ```bash
 aws --version
 ```
 
-The `aws help` command was also used to verify the tool and access its documentation directly from the terminal:
+The `aws help` command was also used to access the AWS CLI documentation directly from the terminal:
 
 ```bash
 aws help
@@ -86,7 +84,7 @@ aws help
 
 ### 3. Reviewing IAM Configuration
 
-Before using the AWS CLI to perform the queries, some IAM configurations were reviewed in the AWS Management Console.
+Before using the AWS CLI, some IAM configurations were reviewed in the AWS Management Console.
 
 The information reviewed included:
 
@@ -101,7 +99,7 @@ The credentials used during the lab were not included in this documentation or r
 
 After installation, the AWS CLI was configured to access the AWS account used in the lab.
 
-The following command was executed to start the configuration:
+The following command was executed:
 
 ```bash
 aws configure
@@ -128,7 +126,7 @@ aws iam list-users
 
 The command returns the IAM users available in the AWS account in JSON format.
 
-The result confirmed that the AWS CLI was correctly configured and could query the IAM service.
+The result confirmed that the AWS CLI was configured and could query the IAM service.
 
 ![IAM users query](./users.png)
 
@@ -150,7 +148,7 @@ The returned information included:
 * `Arn`
 * `DefaultVersionId`
 
-The `DefaultVersionId` property identifies the default version of the policy and was used in the next step.
+The `DefaultVersionId` property was used to identify the policy version retrieved in the next step.
 
 ![IAM policies query](./policies.png)
 
@@ -174,7 +172,7 @@ The command returned the information for the policy version, including the JSON 
 
 ### 8. Saving the Policy in JSON Format
 
-To save the command output to a file, the `>` redirection operator was used:
+The command output was saved to a file using the `>` redirection operator:
 
 ```bash
 aws iam get-policy-version \
@@ -185,21 +183,19 @@ aws iam get-policy-version \
 
 The `>` operator redirects the command output to the `lab_policy.json` file.
 
-After execution, the file could be viewed using:
+The resulting file could then be viewed using:
 
 ```bash
 cat lab_policy.json
 ```
 
-This allowed the response returned by the AWS CLI to be stored locally as a JSON file on the EC2 instance.
+This stored the response returned by the AWS CLI as a JSON file on the EC2 instance.
 
 ## Result
 
-At the end of the lab, it was possible to install and configure the AWS CLI on an EC2 instance and use it to interact with AWS IAM.
+The lab was completed by installing and configuring the AWS CLI on an EC2 instance and using it to interact with AWS IAM.
 
-User and policy queries were performed, along with the retrieval of the `lab_policy` policy version through the command line.
-
-The lab also provided practical experience with using the AWS CLI to perform operations that could otherwise be performed through the AWS Management Console.
+IAM users and policies were queried, and the `lab_policy` policy version was retrieved through the command line and saved as a JSON file.
 
 ---
 
@@ -207,7 +203,7 @@ The lab also provided practical experience with using the AWS CLI to perform ope
 
 ## Objetivo
 
-Este laboratório teve como objetivo praticar a instalação e configuração da **AWS Command Line Interface (AWS CLI)** em uma instância EC2.
+O objetivo deste laboratório foi praticar a instalação e configuração da **AWS Command Line Interface (AWS CLI)** em uma instância EC2.
 
 Ao final, a AWS CLI foi configurada para acessar a conta AWS utilizada no laboratório e utilizada para consultar recursos do **AWS Identity and Access Management (IAM)**, incluindo usuários e políticas.
 
@@ -215,11 +211,9 @@ Também foi realizada a recuperação da política `lab_policy` por meio da AWS 
 
 ## Arquitetura
 
-A infraestrutura utilizada neste laboratório consistiu em uma instância EC2 acessada remotamente por meio de SSH.
+O laboratório utilizou uma instância EC2 acessada remotamente por meio de SSH.
 
-A AWS CLI foi instalada e configurada na instância para realizar chamadas à conta AWS. Em seguida, a CLI foi utilizada para consultar informações do IAM, incluindo usuários, políticas e versões de políticas.
-
-A arquitetura pode ser representada da seguinte forma:
+A AWS CLI foi instalada e configurada na instância EC2 para interagir com o AWS IAM. Em seguida, a CLI foi utilizada para consultar usuários, políticas e versões de políticas do IAM.
 
 ```mermaid
 flowchart LR
@@ -253,7 +247,7 @@ Após a autenticação, foi possível acessar o terminal da instância e executa
 
 A AWS CLI foi instalada diretamente na instância EC2.
 
-Primeiramente, o instalador foi baixado utilizando o `curl`:
+O instalador foi baixado utilizando o `curl`:
 
 ```bash
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -271,13 +265,13 @@ A instalação foi realizada com:
 sudo ./aws/install
 ```
 
-Após a instalação, foi utilizado o comando abaixo para verificar se a AWS CLI estava disponível na instância:
+Após a instalação, foi utilizado o comando abaixo para verificar se a AWS CLI estava disponível:
 
 ```bash
 aws --version
 ```
 
-Também foi utilizado o comando `aws help` para verificar o funcionamento da ferramenta e consultar sua documentação diretamente pelo terminal:
+Também foi utilizado o comando `aws help` para acessar a documentação da AWS CLI diretamente pelo terminal:
 
 ```bash
 aws help
@@ -285,7 +279,7 @@ aws help
 
 ### 3. Observação da Configuração do IAM
 
-Antes de utilizar a AWS CLI para realizar as consultas, foram observadas algumas configurações do IAM no AWS Management Console.
+Antes de utilizar a AWS CLI, foram observadas algumas configurações do IAM no AWS Management Console.
 
 Entre as informações verificadas estavam:
 
@@ -319,15 +313,15 @@ As credenciais utilizadas nesta etapa não foram incluídas na documentação ou
 
 ### 5. Consulta de Usuários do IAM
 
-Após a configuração da AWS CLI, foi realizado um teste de acesso ao IAM utilizando o comando:
+Após a configuração da AWS CLI, foi realizado um teste de acesso ao IAM utilizando:
 
 ```bash
 aws iam list-users
 ```
 
-O comando retorna os usuários IAM existentes na conta AWS em formato JSON.
+O comando retorna os usuários IAM disponíveis na conta AWS em formato JSON.
 
-O resultado confirmou que a AWS CLI estava corretamente configurada e conseguia realizar consultas ao serviço IAM.
+O resultado confirmou que a AWS CLI estava configurada e conseguia realizar consultas ao serviço IAM.
 
 ![Consulta de usuários IAM](./users.png)
 
@@ -349,7 +343,7 @@ Entre as informações retornadas estavam:
 * `Arn`
 * `DefaultVersionId`
 
-A propriedade `DefaultVersionId` identifica a versão padrão da política e foi utilizada na etapa seguinte.
+A propriedade `DefaultVersionId` foi utilizada para identificar a versão da política recuperada na etapa seguinte.
 
 ![Consulta das políticas IAM](./policies.png)
 
@@ -373,7 +367,7 @@ O comando retornou as informações da versão da política, incluindo o documen
 
 ### 8. Salvamento da Policy em Formato JSON
 
-Para salvar o resultado do comando em um arquivo, foi utilizado o operador `>`:
+O resultado do comando foi salvo em um arquivo utilizando o operador `>`:
 
 ```bash
 aws iam get-policy-version \
@@ -384,18 +378,16 @@ aws iam get-policy-version \
 
 O operador `>` redireciona a saída do comando para o arquivo `lab_policy.json`.
 
-Após a execução, o arquivo pôde ser consultado com:
+O arquivo resultante pôde ser consultado com:
 
 ```bash
 cat lab_policy.json
 ```
 
-Dessa forma, a resposta obtida pela AWS CLI foi armazenada localmente em um arquivo JSON dentro da instância EC2.
+Dessa forma, a resposta obtida pela AWS CLI foi armazenada como um arquivo JSON dentro da instância EC2.
 
 ## Resultado
 
-Ao final do laboratório, foi possível instalar e configurar a AWS CLI em uma instância EC2 e utilizá-la para interagir com o AWS IAM.
+O laboratório foi concluído com a instalação e configuração da AWS CLI em uma instância EC2 e sua utilização para interagir com o AWS IAM.
 
-Foram realizadas consultas de usuários e políticas, além da recuperação da versão da política `lab_policy` por meio da linha de comando.
-
-O laboratório também proporcionou experiência prática com a utilização da AWS CLI para realizar operações que normalmente poderiam ser executadas por meio do AWS Management Console.
+Foram realizadas consultas de usuários e políticas, além da recuperação da versão da política `lab_policy` por meio da linha de comando e seu salvamento em um arquivo JSON.
