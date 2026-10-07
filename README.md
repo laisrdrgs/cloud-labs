@@ -8,7 +8,7 @@
 
 This repository contains hands-on Cloud Computing labs developed during my AWS and Cloud learning journey.
 
-The labs document practical exercises involving AWS infrastructure, identity and access management, databases, command-line tools, instance management, and static website deployment.
+The labs document practical exercises involving AWS infrastructure, identity and access management, databases, command-line tools, instance management, static website deployment, and cloud troubleshooting.
 
 Each lab includes the resources used, the steps performed, relevant configurations, and the results obtained during the exercise.
 
@@ -123,11 +123,36 @@ The lab included IAM user configuration, S3 access settings, website hosting, ob
 
 ---
 
+### 07. EC2 CLI Troubleshooting
+
+Hands-on lab focused on deploying a LAMP-based Café Web Application on Amazon EC2 using the AWS CLI and troubleshooting intentional configuration issues.
+
+The lab included identifying an AMI and Region mismatch, troubleshooting HTTP connectivity with `nmap`, correcting Security Group ingress rules, and validating the application and database functionality.
+
+**Services and Resources Used:**
+
+* Amazon EC2
+* Amazon VPC
+* Subnets
+* Security Groups
+* AWS Command Line Interface (AWS CLI)
+* Linux
+* Apache
+* PHP
+* MariaDB
+* Bash
+* `nmap`
+* EC2 User Data / cloud-init
+
+[View Documentation](./07-ec2-cli-troubleshooting/)
+
+---
+
 ## Português
 
 Este repositório reúne laboratórios práticos de Cloud Computing desenvolvidos durante minha jornada de aprendizado em AWS e Cloud.
 
-Os laboratórios documentam exercícios práticos envolvendo infraestrutura na AWS, gerenciamento de identidade e acesso, bancos de dados, ferramentas de linha de comando, gerenciamento de instâncias e deploy de websites estáticos.
+Os laboratórios documentam exercícios práticos envolvendo infraestrutura na AWS, gerenciamento de identidade e acesso, bancos de dados, ferramentas de linha de comando, gerenciamento de instâncias, deploy de websites estáticos e troubleshooting em Cloud.
 
 Cada laboratório apresenta os recursos utilizados, as etapas realizadas, as principais configurações e os resultados obtidos durante o exercício.
 
@@ -239,3 +264,28 @@ O laboratório incluiu a configuração de usuário e permissões no IAM, config
 * Bash
 
 [Ver Documentação](./06-s3-website/)
+
+---
+
+### 07. Troubleshooting de EC2 via AWS CLI
+
+Laboratório prático focado no deploy de uma Café Web Application baseada em LAMP em uma instância Amazon EC2 utilizando a AWS CLI e na resolução de problemas de configuração inseridos intencionalmente.
+
+O laboratório incluiu a identificação de uma incompatibilidade entre AMI e Região, troubleshooting de conectividade HTTP utilizando `nmap`, correção de regras de entrada do Security Group e validação do funcionamento da aplicação e do banco de dados.
+
+**Serviços e Recursos Utilizados:**
+
+* Amazon EC2
+* Amazon VPC
+* Subnets
+* Security Groups
+* AWS Command Line Interface (AWS CLI)
+* Linux
+* Apache
+* PHP
+* MariaDB
+* Bash
+* `nmap`
+* EC2 User Data / cloud-init
+
+[Ver Documentação](./07-ec2-cli-troubleshooting/)
