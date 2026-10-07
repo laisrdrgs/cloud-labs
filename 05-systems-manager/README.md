@@ -8,162 +8,199 @@
 
 ## Objective
 
-The objective of this lab was to practice using **AWS Systems Manager** to manage and interact with an Amazon EC2 instance without relying on traditional remote access through SSH.
+Practice using **AWS Systems Manager** to manage an Amazon EC2 instance without relying on traditional SSH access.
 
-During the lab, Systems Manager was used to collect instance inventory information, execute commands remotely, manage an application setting through Parameter Store, and access the instance through Session Manager.
-
-The lab also included the installation and configuration of the Widget Manufacturing Dashboard application on the EC2 instance.
+The lab explored multiple Systems Manager capabilities for **instance inventory, remote command execution, application configuration, and interactive access**, while deploying and configuring the Widget Manufacturing Dashboard.
 
 ## Architecture
 
-The lab used an EC2 instance running inside a VPC and managed through AWS Systems Manager.
+The EC2 instance was managed through Systems Manager capabilities instead of requiring direct SSH access.
 
-Systems Manager was used for inventory collection, command execution through Run Command, application configuration through Parameter Store, and interactive access through Session Manager.
-
-```mermaid
+```mermaid id="7x9x7n"
 flowchart LR
-    A["AWS Management Console"] --> B["AWS Systems Manager"]
+    CONSOLE["AWS Management Console"]
 
-    B --> C["Fleet Manager"]
-    B --> D["Run Command"]
-    B --> E["Parameter Store"]
-    B --> F["Session Manager"]
+    subgraph SSM["AWS Systems Manager"]
+        FM["Fleet Manager"]
+        RC["Run Command"]
+        PS["Parameter Store"]
+        SM["Session Manager"]
+    end
 
-    C --> G["EC2 Instance"]
-    D --> G
-    E --> G
-    F --> G
+    subgraph VPC["Amazon VPC"]
+        EC2["Amazon EC2"]
+        APP["Widget Manufacturing<br/>Dashboard"]
+    end
 
-    G --> H["Widget Manufacturing Dashboard"]
+    CONSOLE --> SSM
+
+    FM --> EC2
+    RC --> EC2
+    PS --> APP
+    SM --> EC2
+
+    EC2 --> APP
 ```
 
-## Services and Resources Used
+### Management Model
 
-* **Amazon EC2** — instance managed through AWS Systems Manager
-* **AWS Systems Manager** — service used to manage and interact with the EC2 instance
-* **Fleet Manager** — capability used to collect and review instance inventory information
-* **Run Command** — capability used to execute commands on the managed instance
-* **Parameter Store** — capability used to store an application configuration parameter
-* **Session Manager** — capability used to access the instance through a browser-based shell
-* **Amazon VPC** — network environment containing the EC2 instance
+| Capability                     | Purpose                                      |
+| ------------------------------ | -------------------------------------------- |
+| Fleet Manager / Inventory      | Collect and inspect instance information     |
+| Run Command                    | Execute administrative commands remotely     |
+| Parameter Store                | Manage application configuration             |
+| Session Manager                | Provide interactive shell access without SSH |
+| EC2                            | Managed compute resource                     |
+| Widget Manufacturing Dashboard | Application deployed during the lab          |
 
-## Steps Performed
+This model demonstrates centralized management of an EC2 instance through AWS Systems Manager rather than depending exclusively on network-based remote access.
 
-### 1. Creating an Inventory Association
+## Services & Resources
 
-The first task was to configure **Inventory** in AWS Systems Manager.
+| Service / Resource             | Purpose                                        |
+| ------------------------------ | ---------------------------------------------- |
+| Amazon EC2                     | Managed compute instance                       |
+| AWS Systems Manager            | Central management service                     |
+| Fleet Manager / Inventory      | Instance and software inventory                |
+| Run Command                    | Remote command execution                       |
+| Parameter Store                | Application configuration                      |
+| Session Manager                | Interactive instance access                    |
+| Amazon VPC                     | Network environment                            |
+| Widget Manufacturing Dashboard | Application used to validate the configuration |
 
-An inventory association named `Inventory-Association` was created for the managed EC2 instance.
+## Implementation
 
-The association was configured to collect information about software and settings installed on the instance.
+### 1. Instance Inventory
+
+An Inventory association named `Inventory-Association` was created for the managed EC2 instance.
+
+The association was configured to collect information about installed software and instance configuration.
 
 ![Creating the inventory association](./inventory-details.png)
 
-After the inventory association was created, the instance's inventory information was accessed through Fleet Manager.
-
-The Inventory tab displayed information about applications installed on the instance and other available inventory types.
+The collected information was then reviewed through Fleet Manager, including installed applications and other available inventory data.
 
 ![EC2 instance inventory](./inventory-app-details.png)
 
-This allowed the instance configuration and installed applications to be reviewed through Systems Manager without establishing an SSH connection to the instance.
+This provided visibility into the instance configuration without requiring an SSH connection.
 
-### 2. Installing the Dashboard Application with Run Command
+### 2. Application Deployment with Run Command
 
-The second task was to use **Run Command** to install the Widget Manufacturing Dashboard application on the managed EC2 instance.
+**Run Command** was used to deploy the Widget Manufacturing Dashboard to the managed EC2 instance.
 
-A pre-configured Systems Manager document was selected to perform the application installation.
-
-The command was configured to run against the managed instance, with the option to store command output in an S3 bucket left disabled.
-
-The Run Command operation installed the components required by the application, including:
+A pre-configured Systems Manager document was executed against the instance. The operation installed the application components, including:
 
 * Apache web server
 * PHP
 * AWS SDK
-* Widget Manufacturing Dashboard application
+* Widget Manufacturing Dashboard
 
-After the command completed successfully, the application's public IP address was used to access the dashboard through a web browser.
+The command completed successfully and the application became accessible through the instance's public IP address.
 
 ![Widget Manufacturing Dashboard](./dashboard-app.png)
 
-The application was successfully installed and made available through the web server running on the EC2 instance.
+This demonstrated how Run Command can automate administrative and application deployment tasks on managed instances.
 
-This demonstrated the use of Run Command to perform application installation and configuration tasks without establishing an SSH connection to the instance.
+### 3. Application Configuration with Parameter Store
 
-### 3. Managing Application Settings with Parameter Store
-
-The third task was to use **Parameter Store** to manage an application setting.
-
-A parameter named:
+A Parameter Store entry was created to control an application feature:
 
 ```text
 /dashboard/show-beta-features
 ```
 
-was created with the following configuration:
+Configuration:
 
-```text
-Description: Display beta features
-Type: String
-Value: True
-```
+| Parameter   | Value                 |
+| ----------- | --------------------- |
+| Description | Display beta features |
+| Type        | String                |
+| Value       | `True`                |
 
-The parameter was used by the Widget Manufacturing Dashboard to determine whether an additional beta feature should be displayed.
+The dashboard consumed this parameter to determine whether the beta feature should be displayed.
 
-After creating the parameter, the application page was refreshed.
-
-The dashboard then displayed the additional chart associated with the beta feature.
+After the parameter was created, the application was refreshed and the additional chart became visible.
 
 ![Widget Manufacturing Dashboard with beta feature](./dashboard-app-beta.png)
 
-This demonstrated how Parameter Store was used in the lab to manage an application setting without directly modifying the application running on the EC2 instance.
+This demonstrated how application configuration can be managed externally through Parameter Store instead of directly modifying application files.
 
-### 4. Accessing the Instance with Session Manager
+### 4. Interactive Access with Session Manager
 
-The final task was to access the EC2 instance through **Session Manager**.
+**Session Manager** was used to establish an interactive shell session with the EC2 instance.
 
-A new Session Manager session was started for the managed instance, providing a browser-based command-line interface.
+The application files were inspected with:
 
-The following command was used to list the application files stored in the web server directory:
-
-```bash
+```bash id="fy24xz"
 ls /var/www/html
 ```
 
 The AWS CLI was also used from inside the Session Manager session.
 
-The AWS Region was obtained from the EC2 instance metadata:
+The instance Availability Zone metadata was used to determine the AWS Region:
 
-```bash
-# Get region
+```bash id="a3q6o4"
 AZ=`curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone`
 export AWS_DEFAULT_REGION=${AZ::-1}
 ```
 
-The following command was then used to retrieve information about the EC2 instances:
+The EC2 API was then queried with:
 
-```bash
-# List information about EC2 instances
+```bash id="j8a4fj"
 aws ec2 describe-instances
 ```
 
-The command returned information about the EC2 instance in JSON format.
+The command returned instance information in JSON format.
 
 ![Session Manager](./session-manager.png)
 
-This demonstrated that the instance could be accessed through Session Manager without establishing an SSH connection.
+This validated that the instance could be administrated through Session Manager without establishing an SSH connection.
+
+## Management Workflow
+
+The lab demonstrated four complementary Systems Manager capabilities:
+
+```mermaid id="e1i3gz"
+flowchart LR
+    A["EC2 Instance"] --> B["Inventory"]
+    A --> C["Run Command"]
+    A --> D["Parameter Store"]
+    A --> E["Session Manager"]
+
+    B --> B1["Visibility"]
+    C --> C1["Remote Operations"]
+    D --> D1["Configuration"]
+    E --> E1["Interactive Access"]
+```
+
+Together, these capabilities provide a management workflow covering **visibility, automation, configuration, and administrative access**.
+
+## Validation
+
+The final validation confirmed that:
+
+* Instance inventory could be collected and reviewed.
+* Commands could be executed remotely through Run Command.
+* The dashboard could be deployed without an SSH session.
+* Application behavior could be changed through Parameter Store.
+* An interactive shell could be established through Session Manager.
+* Linux and AWS CLI commands could be executed from the managed instance.
 
 ## Result
 
-The lab was completed by using AWS Systems Manager to manage and interact with an EC2 instance through multiple capabilities.
+The EC2 instance was successfully managed through multiple **AWS Systems Manager** capabilities without relying on traditional SSH access.
 
-The lab included:
+The lab demonstrated practical use of Systems Manager for **inventory management, remote operations, application configuration, and secure interactive access**, while deploying and configuring a web application.
 
-* creating an inventory association and reviewing instance information;
-* installing an application using Run Command;
-* managing an application setting using Parameter Store;
-* accessing the instance through Session Manager;
-* executing Linux and AWS CLI commands through the Session Manager shell.
+## Key Takeaways
+
+* Managing EC2 instances through AWS Systems Manager.
+* Collecting software and instance inventory.
+* Executing remote administrative tasks with Run Command.
+* Separating application configuration from application files with Parameter Store.
+* Accessing EC2 through Session Manager without SSH.
+* Using AWS CLI from a Systems Manager session.
+* Understanding Systems Manager as a centralized operational management layer.
 
 ---
 
@@ -171,159 +208,196 @@ The lab included:
 
 ## Objetivo
 
-O objetivo deste laboratório foi praticar a utilização do **AWS Systems Manager** para gerenciar e interagir com uma instância Amazon EC2 sem depender do acesso remoto tradicional por SSH.
+Praticar a utilização do **AWS Systems Manager** para gerenciar uma instância Amazon EC2 sem depender do acesso tradicional por SSH.
 
-Durante o laboratório, o Systems Manager foi utilizado para coletar informações de inventário da instância, executar comandos remotamente, gerenciar uma configuração da aplicação por meio do Parameter Store e acessar a instância através do Session Manager.
-
-O laboratório também incluiu a instalação e configuração da aplicação Widget Manufacturing Dashboard na instância EC2.
+O laboratório explorou diferentes funcionalidades do Systems Manager para **inventário da instância, execução remota de comandos, configuração de aplicações e acesso interativo**, além da implantação e configuração do Widget Manufacturing Dashboard.
 
 ## Arquitetura
 
-O laboratório utilizou uma instância EC2 executada dentro de uma VPC e gerenciada por meio do AWS Systems Manager.
+A instância EC2 foi gerenciada por meio das funcionalidades do Systems Manager, sem depender de uma conexão SSH direta.
 
-O Systems Manager foi utilizado para realizar a coleta de informações de inventário, executar comandos por meio do Run Command, gerenciar uma configuração da aplicação através do Parameter Store e estabelecer uma sessão interativa por meio do Session Manager.
-
-```mermaid
+```mermaid id="5f6z8r"
 flowchart LR
-    A["AWS Management Console"] --> B["AWS Systems Manager"]
+    CONSOLE["AWS Management Console"]
 
-    B --> C["Fleet Manager"]
-    B --> D["Run Command"]
-    B --> E["Parameter Store"]
-    B --> F["Session Manager"]
+    subgraph SSM["AWS Systems Manager"]
+        FM["Fleet Manager"]
+        RC["Run Command"]
+        PS["Parameter Store"]
+        SM["Session Manager"]
+    end
 
-    C --> G["Instância EC2"]
-    D --> G
-    E --> G
-    F --> G
+    subgraph VPC["Amazon VPC"]
+        EC2["Amazon EC2"]
+        APP["Widget Manufacturing<br/>Dashboard"]
+    end
 
-    G --> H["Widget Manufacturing Dashboard"]
+    CONSOLE --> SSM
+
+    FM --> EC2
+    RC --> EC2
+    PS --> APP
+    SM --> EC2
+
+    EC2 --> APP
 ```
 
-## Serviços e Recursos Utilizados
+### Modelo de Gerenciamento
 
-* **Amazon EC2** — instância gerenciada por meio do AWS Systems Manager
-* **AWS Systems Manager** — serviço utilizado para gerenciar e interagir com a instância EC2
-* **Fleet Manager** — funcionalidade utilizada para coletar e consultar informações de inventário da instância
-* **Run Command** — funcionalidade utilizada para executar comandos na instância gerenciada
-* **Parameter Store** — funcionalidade utilizada para armazenar um parâmetro de configuração da aplicação
-* **Session Manager** — funcionalidade utilizada para acessar a instância por meio de um shell baseado no navegador
-* **Amazon VPC** — ambiente de rede no qual a instância EC2 estava localizada
+| Funcionalidade                 | Finalidade                                    |
+| ------------------------------ | --------------------------------------------- |
+| Fleet Manager / Inventory      | Coletar e consultar informações da instância  |
+| Run Command                    | Executar comandos administrativos remotamente |
+| Parameter Store                | Gerenciar configurações da aplicação          |
+| Session Manager                | Fornecer acesso interativo sem SSH            |
+| EC2                            | Recurso computacional gerenciado              |
+| Widget Manufacturing Dashboard | Aplicação implantada durante o laboratório    |
 
-## Etapas Realizadas
+Esse modelo demonstra o gerenciamento centralizado de uma instância EC2 por meio do AWS Systems Manager, reduzindo a dependência de acesso remoto baseado diretamente em rede.
 
-### 1. Criação da Associação de Inventário
+## Serviços e Recursos
 
-A primeira etapa consistiu em configurar o **Inventory** no AWS Systems Manager.
+| Serviço / Recurso              | Finalidade                                      |
+| ------------------------------ | ----------------------------------------------- |
+| Amazon EC2                     | Instância computacional gerenciada              |
+| AWS Systems Manager            | Serviço central de gerenciamento                |
+| Fleet Manager / Inventory      | Inventário da instância e dos softwares         |
+| Run Command                    | Execução remota de comandos                     |
+| Parameter Store                | Configuração da aplicação                       |
+| Session Manager                | Acesso interativo à instância                   |
+| Amazon VPC                     | Ambiente de rede                                |
+| Widget Manufacturing Dashboard | Aplicação utilizada para validar a configuração |
 
-Foi criada uma associação de inventário denominada `Inventory-Association` para a instância EC2 gerenciada.
+## Implementação
 
-A associação foi configurada para coletar informações sobre os softwares e configurações da instância.
+### 1. Inventário da Instância
+
+Foi criada uma associação de Inventory denominada `Inventory-Association` para a instância EC2 gerenciada.
+
+A associação foi configurada para coletar informações sobre os softwares instalados e a configuração da instância.
 
 ![Criação da associação de inventário](./inventory-details.png)
 
-Após a criação da associação de inventário, as informações da instância foram acessadas por meio do Fleet Manager.
-
-Na aba Inventory, foram exibidas informações sobre as aplicações instaladas na instância e sobre os demais tipos de inventário disponíveis.
+As informações coletadas foram posteriormente consultadas por meio do Fleet Manager, incluindo aplicações instaladas e outros dados de inventário disponíveis.
 
 ![Inventário da instância EC2](./inventory-app-details.png)
 
-Dessa forma, foi possível consultar a configuração da instância e as aplicações instaladas por meio do Systems Manager sem estabelecer uma conexão SSH com a instância.
+Isso permitiu obter visibilidade sobre a configuração da instância sem estabelecer uma conexão SSH.
 
-### 2. Instalação da Aplicação de Dashboard com Run Command
+### 2. Implantação da Aplicação com Run Command
 
-A segunda etapa consistiu na utilização do **Run Command** para instalar a aplicação Widget Manufacturing Dashboard na instância EC2 gerenciada.
+O **Run Command** foi utilizado para instalar o Widget Manufacturing Dashboard na instância EC2 gerenciada.
 
-Foi selecionado um documento pré-configurado do Systems Manager para realizar a instalação da aplicação.
-
-O comando foi configurado para ser executado na instância gerenciada, mantendo desabilitada a opção de armazenar a saída do comando em um bucket S3.
-
-A execução do Run Command instalou os componentes necessários para a aplicação, incluindo:
+Um documento pré-configurado do Systems Manager foi executado na instância. A operação instalou os componentes necessários, incluindo:
 
 * servidor web Apache;
 * PHP;
 * AWS SDK;
-* aplicação Widget Manufacturing Dashboard.
+* Widget Manufacturing Dashboard.
 
-Após a conclusão bem-sucedida do comando, o endereço IP público da aplicação foi utilizado para acessar o dashboard por meio de um navegador.
+O comando foi concluído com sucesso e a aplicação ficou disponível por meio do endereço IP público da instância.
 
 ![Widget Manufacturing Dashboard](./dashboard-app.png)
 
-A aplicação foi instalada com sucesso e disponibilizada por meio do servidor web executado na instância EC2.
+Essa etapa demonstrou como o Run Command pode automatizar tarefas administrativas e de implantação de aplicações em instâncias gerenciadas.
 
-Essa etapa demonstrou a utilização do Run Command para realizar tarefas de instalação e configuração de aplicações sem estabelecer uma conexão SSH com a instância.
+### 3. Configuração da Aplicação com Parameter Store
 
-### 3. Gerenciamento das Configurações da Aplicação com Parameter Store
-
-A terceira etapa consistiu na utilização do **Parameter Store** para gerenciar uma configuração da aplicação.
-
-Foi criado o seguinte parâmetro:
+Foi criado um parâmetro no Parameter Store para controlar uma funcionalidade da aplicação:
 
 ```text
 /dashboard/show-beta-features
 ```
 
-com a seguinte configuração:
+Configuração:
 
-```text
-Description: Display beta features
-Type: String
-Value: True
-```
+| Parâmetro   | Valor                 |
+| ----------- | --------------------- |
+| Description | Display beta features |
+| Type        | String                |
+| Value       | `True`                |
 
-O parâmetro foi utilizado pelo Widget Manufacturing Dashboard para determinar se uma funcionalidade adicional em versão beta deveria ser exibida.
+O dashboard utilizou esse parâmetro para determinar se a funcionalidade beta deveria ser exibida.
 
-Após a criação do parâmetro, a página da aplicação foi atualizada.
+Após a criação do parâmetro, a aplicação foi atualizada e o gráfico adicional passou a ser exibido.
 
-O dashboard passou então a exibir o gráfico adicional associado à funcionalidade beta.
+![Widget Manufacturing Dashboard com funcionalidade beta](./dashboard-app-beta.png)
 
-![Widget Manufacturing Dashboard com a funcionalidade beta](./dashboard-app-beta.png)
+Essa etapa demonstrou como uma configuração da aplicação pode ser gerenciada externamente pelo Parameter Store sem alterar diretamente os arquivos da aplicação.
 
-Essa etapa demonstrou como o Parameter Store foi utilizado no laboratório para gerenciar uma configuração da aplicação sem modificar diretamente a aplicação executada na instância EC2.
+### 4. Acesso Interativo com Session Manager
 
-### 4. Acesso à Instância com Session Manager
+O **Session Manager** foi utilizado para estabelecer uma sessão interativa com a instância EC2.
 
-A última etapa consistiu em acessar a instância EC2 por meio do **Session Manager**.
+Os arquivos da aplicação foram consultados com:
 
-Foi iniciada uma nova sessão do Session Manager para a instância gerenciada, disponibilizando uma interface de linha de comando diretamente pelo navegador.
-
-O seguinte comando foi utilizado para listar os arquivos da aplicação armazenados no diretório do servidor web:
-
-```bash
+```bash id="bd5f5v"
 ls /var/www/html
 ```
 
-Também foi utilizada a AWS CLI a partir da sessão do Session Manager.
+A AWS CLI também foi utilizada dentro da sessão do Session Manager.
 
-A região da instância foi obtida por meio dos metadados da instância EC2:
+Os metadados da Availability Zone da instância foram utilizados para determinar a região da AWS:
 
-```bash
-# Get region
+```bash id="j5z2mg"
 AZ=`curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone`
 export AWS_DEFAULT_REGION=${AZ::-1}
 ```
 
-Em seguida, foi utilizado o comando abaixo para obter informações sobre as instâncias EC2:
+Em seguida, a API do EC2 foi consultada com:
 
-```bash
-# List information about EC2 instances
+```bash id="q7h1m8"
 aws ec2 describe-instances
 ```
 
-O comando retornou informações sobre a instância EC2 em formato JSON.
+O comando retornou informações sobre a instância em formato JSON.
 
 ![Session Manager](./session-manager.png)
 
-Essa etapa demonstrou que a instância pode ser acessada por meio do Session Manager sem estabelecer uma conexão SSH.
+Isso validou que a instância poderia ser administrada por meio do Session Manager sem estabelecer uma conexão SSH.
+
+## Fluxo de Gerenciamento
+
+O laboratório demonstrou quatro funcionalidades complementares do Systems Manager:
+
+```mermaid id="u7s8t9"
+flowchart LR
+    A["Instância EC2"] --> B["Inventory"]
+    A --> C["Run Command"]
+    A --> D["Parameter Store"]
+    A --> E["Session Manager"]
+
+    B --> B1["Visibilidade"]
+    C --> C1["Operações Remotas"]
+    D --> D1["Configuração"]
+    E --> E1["Acesso Interativo"]
+```
+
+Em conjunto, essas funcionalidades fornecem um fluxo de gerenciamento que cobre **visibilidade, automação, configuração e acesso administrativo**.
+
+## Validação
+
+A validação final confirmou que:
+
+* O inventário da instância pôde ser coletado e consultado.
+* Comandos puderam ser executados remotamente pelo Run Command.
+* O dashboard pôde ser implantado sem uma sessão SSH.
+* O comportamento da aplicação pôde ser alterado através do Parameter Store.
+* Uma sessão interativa pôde ser estabelecida pelo Session Manager.
+* Comandos Linux e AWS CLI puderam ser executados dentro da instância gerenciada.
 
 ## Resultado
 
-O laboratório foi concluído utilizando o AWS Systems Manager para gerenciar e interagir com uma instância EC2 por meio de diferentes funcionalidades.
+A instância EC2 foi gerenciada com sucesso por meio de diferentes funcionalidades do **AWS Systems Manager**, sem depender do acesso tradicional por SSH.
 
-O laboratório incluiu:
+O laboratório demonstrou o uso prático do Systems Manager para **gerenciamento de inventário, operações remotas, configuração de aplicações e acesso interativo**, além da implantação e configuração de uma aplicação web.
 
-* criação de uma associação de inventário e consulta das informações da instância;
-* instalação de uma aplicação utilizando o Run Command;
-* gerenciamento de uma configuração da aplicação utilizando o Parameter Store;
-* acesso à instância por meio do Session Manager;
-* execução de comandos Linux e AWS CLI através do shell do Session Manager.
+## Principais Aprendizados
+
+* Gerenciamento de instâncias EC2 utilizando AWS Systems Manager.
+* Coleta de inventário de softwares e configurações.
+* Execução de tarefas administrativas remotas com Run Command.
+* Separação da configuração da aplicação dos arquivos da aplicação com Parameter Store.
+* Acesso à EC2 através do Session Manager sem SSH.
+* Utilização da AWS CLI dentro de uma sessão do Systems Manager.
+* Compreensão do Systems Manager como uma camada centralizada de gerenciamento operacional.
