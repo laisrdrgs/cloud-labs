@@ -18,7 +18,7 @@ The lab also included hands-on permission testing with different IAM users to ve
 
 The environment was structured around three IAM groups representing different access requirements.
 
-```mermaid id="iam-lab-en"
+```mermaid
 flowchart LR
     IAM["AWS IAM"]
 
@@ -136,9 +136,9 @@ The lab successfully implemented a basic **role-based access model** using IAM g
 
 The permission tests confirmed three distinct access scenarios:
 
-* **S3 read-only access**
-* **EC2 read-only access**
-* **EC2 access with resource actions**
+* **S3 read-only access.**
+* **EC2 read-only access.**
+* **EC2 access with resource actions.**
 
 The lab also provided practical experience with the relationship between **users, groups, policies, and permissions** in AWS.
 
@@ -148,12 +148,12 @@ The lab also provided practical experience with the relationship between **users
 
 This lab provided practical exposure to foundational AWS identity and access management concepts:
 
-* Creating and managing **IAM users and groups**
-* Applying permissions through **managed and inline policies**
-* Understanding **read-only vs. action-based permissions**
-* Configuring an account-level **password policy**
-* Testing permissions through real AWS resource interactions
-* Understanding how IAM policies control access to AWS resources
+* Creating and managing **IAM users and groups**.
+* Applying permissions through **managed and inline policies**.
+* Understanding **read-only vs. action-based permissions**.
+* Configuring an account-level **password policy**.
+* Testing permissions through real AWS resource interactions.
+* Understanding how IAM policies control access to AWS resources.
 
 ---
 
@@ -171,7 +171,7 @@ O laboratório também incluiu testes práticos de permissões com diferentes us
 
 O ambiente foi estruturado a partir de três grupos IAM representando diferentes necessidades de acesso.
 
-```mermaid id="iam-lab-pt"
+```mermaid
 flowchart LR
     IAM["AWS IAM"]
 
@@ -289,9 +289,9 @@ O laboratório implementou com sucesso um modelo básico de **controle de acesso
 
 Os testes de permissões confirmaram três cenários distintos:
 
-* **Acesso somente para leitura ao S3**
-* **Acesso somente para leitura ao EC2**
-* **Acesso ao EC2 com permissão para realizar ações sobre recursos**
+* **Acesso somente para leitura ao S3.**
+* **Acesso somente para leitura ao EC2.**
+* **Acesso ao EC2 com permissão para realizar ações sobre recursos.**
 
 O laboratório também proporcionou contato prático com a relação entre **usuários, grupos, políticas e permissões** na AWS.
 
@@ -301,9 +301,9 @@ O laboratório também proporcionou contato prático com a relação entre **usu
 
 Este laboratório proporcionou contato prático com conceitos fundamentais de gerenciamento de identidade e acesso na AWS:
 
-* Criação e gerenciamento de **usuários e grupos IAM**
-* Aplicação de permissões por meio de **políticas gerenciadas e inline**
-* Compreensão da diferença entre **acesso somente para leitura e permissões de ação**
-* Configuração de uma **política de senha** para a conta
-* Validação de permissões através de interações reais com recursos AWS
-* Compreensão de como as políticas IAM controlam o acesso aos recursos da AWS
+* Criação e gerenciamento de **usuários e grupos IAM**.
+* Aplicação de permissões por meio de **políticas gerenciadas e inline**.
+* Compreensão da diferença entre **acesso somente para leitura e permissões de ação**.
+* Configuração de uma **política de senha** para a conta.
+* Validação de permissões através de interações reais com recursos AWS.
+* Compreensão de como as políticas IAM controlam o acesso aos recursos da AWS.
