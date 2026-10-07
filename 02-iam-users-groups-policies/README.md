@@ -8,100 +8,152 @@
 
 ## Objective
 
-The objective of this lab was to practice AWS Identity and Access Management (IAM) by creating and configuring users, groups, password policies, and permissions.
+The objective of this lab was to practice **AWS Identity and Access Management (IAM)** by creating users, groups, password policies, and role-based permissions.
 
-Permission tests were also performed using different IAM users to verify access to Amazon S3 and Amazon EC2 resources.
+The lab also included hands-on permission testing with different IAM users to verify how access policies affect interactions with **Amazon S3 and Amazon EC2**.
 
-## Services and Resources Used
+---
 
-* **AWS Identity and Access Management (IAM)** — used to manage users, groups, password policies, and permissions
-* **Amazon S3** — used to test read-only access
-* **Amazon EC2** — used to test read-only and administrative permissions
+## Access Model
 
-## Steps Performed
+The environment was structured around three IAM groups representing different access requirements.
 
-### 1. Password Policy Configuration
+```mermaid id="iam-lab-en"
+flowchart LR
+    IAM["AWS IAM"]
 
-A custom password policy was configured for the AWS account.
+    IAM --> S3G["S3-Support"]
+    IAM --> EC2G["EC2-Support"]
+    IAM --> ADMG["EC2-Admin"]
 
-| Setting                               | Value            |
-| ------------------------------------- | ---------------- |
-| Minimum password length               | 10 characters    |
-| Uppercase letter                      | Required         |
-| Lowercase letter                      | Required         |
-| Number                                | Required         |
-| Special character                     | Required         |
-| Password expiration                   | 90 days          |
-| Password reuse prevention             | Last 5 passwords |
-| Administrator-required password reset | Disabled         |
+    S3G --> U1["user-1"]
+    EC2G --> U2["user-2"]
+    ADMG --> U3["user-3"]
+
+    S3G --> S3["Amazon S3<br/>Read Only"]
+    EC2G --> EC2R["Amazon EC2<br/>Read Only"]
+    ADMG --> EC2A["Amazon EC2<br/>Start / Stop"]
+```
+
+### Access Structure
+
+| IAM User | Group         | Access Level           | Main Resource |
+| -------- | ------------- | ---------------------- | ------------- |
+| `user-1` | `S3-Support`  | Read-only              | Amazon S3     |
+| `user-2` | `EC2-Support` | Read-only              | Amazon EC2    |
+| `user-3` | `EC2-Admin`   | Administrative actions | Amazon EC2    |
+
+---
+
+## Services & Resources
+
+| AWS Service / Resource | Purpose                                                     |
+| ---------------------- | ----------------------------------------------------------- |
+| **AWS IAM**            | Identity, users, groups, policies, and access control       |
+| **Amazon S3**          | Permission testing for read-only access                     |
+| **Amazon EC2**         | Permission testing for read-only and administrative actions |
+
+---
+
+## Implementation
+
+### 1. Password Policy
+
+A custom account password policy was configured to strengthen authentication requirements.
+
+| Setting                      | Configuration    |
+| ---------------------------- | ---------------- |
+| Minimum length               | 10 characters    |
+| Uppercase                    | Required         |
+| Lowercase                    | Required         |
+| Number                       | Required         |
+| Special character            | Required         |
+| Expiration                   | 90 days          |
+| Password reuse prevention    | Last 5 passwords |
+| Administrator-required reset | Disabled         |
 
 ![Configured password policy](./password-policy.png)
 
 ### 2. IAM Users and Groups
 
-Three IAM users and three IAM groups were configured.
+Three users and three groups were created to represent different access requirements.
 
-| User     | Group         | Role                      |
-| -------- | ------------- | ------------------------- |
-| `user-1` | `S3-Support`  | Amazon S3 support         |
-| `user-2` | `EC2-Support` | Amazon EC2 support        |
-| `user-3` | `EC2-Admin`   | Amazon EC2 administration |
-
-The users were assigned to groups according to the access required for each role.
+Users were assigned to groups according to their intended responsibilities, allowing permissions to be managed at the group level rather than individually.
 
 ![IAM groups](./iam-groups.png)
 
 ### 3. Policies and Permissions
 
-Different policies were configured for each group.
-
 #### S3-Support
 
-The `S3-Support` group was assigned the managed policy `AmazonS3ReadOnlyAccess`.
+The `S3-Support` group received the managed policy:
 
-This allowed `user-1` to view and list Amazon S3 resources without allowing modifications.
+```text
+AmazonS3ReadOnlyAccess
+```
+
+This provided `user-1` with read-only access to Amazon S3 resources.
 
 #### EC2-Support
 
-The `EC2-Support` group was assigned the managed policy `AmazonEC2ReadOnlyAccess`.
+The `EC2-Support` group received:
 
-This allowed `user-2` to view Amazon EC2 resources without allowing modifications.
+```text
+AmazonEC2ReadOnlyAccess
+```
+
+This provided `user-2` with read-only access to Amazon EC2 resources.
 
 #### EC2-Admin
 
-The `EC2-Admin` group was configured with an inline policy named `EC2-Admin-Policy`.
+The `EC2-Admin` group received an inline policy named:
+
+```text
+EC2-Admin-Policy
+```
 
 The policy allowed `user-3` to view EC2 instances and perform start and stop actions.
 
-### 4. Permission Testing
+---
 
-The configured permissions were tested with each IAM user.
+## Permission Validation
 
-#### user-1 — S3-Support
+The permissions were validated by performing actions with each IAM user.
 
-`user-1` was able to access Amazon S3 and view the available buckets and their contents.
+| User     | Expected Access            | Validation                                                  |
+| -------- | -------------------------- | ----------------------------------------------------------- |
+| `user-1` | S3 read-only               | S3 resources accessible; EC2 access denied                  |
+| `user-2` | EC2 read-only              | EC2 resources visible; stop action denied; S3 access denied |
+| `user-3` | EC2 administrative actions | EC2 resources visible; instance stop action successful      |
 
-The user was unable to access Amazon EC2 resources because the assigned group did not provide EC2 permissions.
+This testing demonstrated how IAM policies directly determine which AWS API actions a user is allowed to perform.
 
-#### user-2 — EC2-Support
-
-`user-2` was able to view Amazon EC2 instances.
-
-When attempting to stop an instance, the operation was denied because the assigned policy provides read-only access.
-
-The user was also unable to list Amazon S3 buckets.
-
-#### user-3 — EC2-Admin
-
-`user-3` was able to view Amazon EC2 instances and successfully stop an instance.
-
-This test confirmed that the configured permissions allowed actions beyond read-only access for EC2 resources.
+---
 
 ## Result
 
-The lab was completed by configuring IAM users, groups, a password policy, and different access permissions.
+The lab successfully implemented a basic **role-based access model** using IAM groups and policies.
 
-Permission tests were performed with all three users, demonstrating the differences between S3 read-only access, EC2 read-only access, and EC2 permissions that allow resource actions.
+The permission tests confirmed three distinct access scenarios:
+
+* **S3 read-only access**
+* **EC2 read-only access**
+* **EC2 access with resource actions**
+
+The lab also provided practical experience with the relationship between **users, groups, policies, and permissions** in AWS.
+
+---
+
+## Key Takeaways
+
+This lab provided practical exposure to foundational AWS identity and access management concepts:
+
+* Creating and managing **IAM users and groups**
+* Applying permissions through **managed and inline policies**
+* Understanding **read-only vs. action-based permissions**
+* Configuring an account-level **password policy**
+* Testing permissions through real AWS resource interactions
+* Understanding how IAM policies control access to AWS resources
 
 ---
 
@@ -109,30 +161,67 @@ Permission tests were performed with all three users, demonstrating the differen
 
 ## Objetivo
 
-O objetivo deste laboratório foi praticar o AWS Identity and Access Management (IAM) por meio da criação e configuração de usuários, grupos, política de senha e permissões.
+O objetivo deste laboratório foi praticar o **AWS Identity and Access Management (IAM)** por meio da criação de usuários, grupos, política de senha e permissões baseadas em função.
 
-Também foram realizados testes de permissões utilizando diferentes usuários IAM para verificar o acesso aos recursos do Amazon S3 e Amazon EC2.
+O laboratório também incluiu testes práticos de permissões com diferentes usuários IAM para verificar como as políticas de acesso afetam a interação com **Amazon S3 e Amazon EC2**.
 
-## Serviços e Recursos Utilizados
+---
 
-* **AWS Identity and Access Management (IAM)** — utilizado para gerenciar usuários, grupos, política de senha e permissões
-* **Amazon S3** — utilizado para testar acesso somente para leitura
-* **Amazon EC2** — utilizado para testar permissões de leitura e permissões para realizar ações
+## Modelo de Acesso
 
-## Etapas Realizadas
+O ambiente foi estruturado a partir de três grupos IAM representando diferentes necessidades de acesso.
 
-### 1. Configuração da Política de Senha
+```mermaid id="iam-lab-pt"
+flowchart LR
+    IAM["AWS IAM"]
 
-Foi configurada uma política de senha personalizada para a conta AWS.
+    IAM --> S3G["S3-Support"]
+    IAM --> EC2G["EC2-Support"]
+    IAM --> ADMG["EC2-Admin"]
+
+    S3G --> U1["user-1"]
+    EC2G --> U2["user-2"]
+    ADMG --> U3["user-3"]
+
+    S3G --> S3["Amazon S3<br/>Somente leitura"]
+    EC2G --> EC2R["Amazon EC2<br/>Somente leitura"]
+    ADMG --> EC2A["Amazon EC2<br/>Iniciar / Parar"]
+```
+
+### Estrutura de Acesso
+
+| Usuário IAM | Grupo         | Nível de Acesso       | Recurso Principal |
+| ----------- | ------------- | --------------------- | ----------------- |
+| `user-1`    | `S3-Support`  | Somente leitura       | Amazon S3         |
+| `user-2`    | `EC2-Support` | Somente leitura       | Amazon EC2        |
+| `user-3`    | `EC2-Admin`   | Ações administrativas | Amazon EC2        |
+
+---
+
+## Serviços e Recursos
+
+| Serviço / Recurso AWS | Finalidade                                                    |
+| --------------------- | ------------------------------------------------------------- |
+| **AWS IAM**           | Identidades, usuários, grupos, políticas e controle de acesso |
+| **Amazon S3**         | Testes de permissões de leitura                               |
+| **Amazon EC2**        | Testes de permissões de leitura e ações administrativas       |
+
+---
+
+## Implementação
+
+### 1. Política de Senha
+
+Foi configurada uma política de senha personalizada para fortalecer os requisitos de autenticação da conta.
 
 | Configuração                         | Valor            |
 | ------------------------------------ | ---------------- |
-| Comprimento mínimo da senha          | 10 caracteres    |
+| Comprimento mínimo                   | 10 caracteres    |
 | Letra maiúscula                      | Obrigatória      |
 | Letra minúscula                      | Obrigatória      |
 | Número                               | Obrigatório      |
 | Caractere especial                   | Obrigatório      |
-| Expiração da senha                   | 90 dias          |
+| Expiração                            | 90 dias          |
 | Prevenção de reutilização            | Últimas 5 senhas |
 | Reset obrigatório pelo administrador | Desativado       |
 
@@ -140,66 +229,81 @@ Foi configurada uma política de senha personalizada para a conta AWS.
 
 ### 2. Usuários e Grupos IAM
 
-Foram configurados três usuários IAM e três grupos IAM.
+Foram criados três usuários e três grupos para representar diferentes necessidades de acesso.
 
-| Usuário  | Grupo         | Função                      |
-| -------- | ------------- | --------------------------- |
-| `user-1` | `S3-Support`  | Suporte ao Amazon S3        |
-| `user-2` | `EC2-Support` | Suporte ao Amazon EC2       |
-| `user-3` | `EC2-Admin`   | Administração do Amazon EC2 |
-
-Os usuários foram associados aos grupos de acordo com as permissões necessárias para cada função.
+Os usuários foram associados aos grupos de acordo com suas respectivas funções, permitindo que as permissões fossem administradas no nível dos grupos em vez de individualmente.
 
 ![Grupos IAM](./iam-groups.png)
 
 ### 3. Políticas e Permissões
 
-Foram configuradas diferentes políticas para cada grupo.
-
 #### S3-Support
 
-O grupo `S3-Support` recebeu a política gerenciada `AmazonS3ReadOnlyAccess`.
+O grupo `S3-Support` recebeu a política gerenciada:
 
-Essa política permitiu que o `user-1` visualizasse e listasse recursos do Amazon S3 sem permitir alterações.
+```text
+AmazonS3ReadOnlyAccess
+```
+
+Essa política forneceu ao `user-1` acesso somente para leitura aos recursos do Amazon S3.
 
 #### EC2-Support
 
-O grupo `EC2-Support` recebeu a política gerenciada `AmazonEC2ReadOnlyAccess`.
+O grupo `EC2-Support` recebeu:
 
-Essa política permitiu que o `user-2` visualizasse recursos do Amazon EC2 sem permitir alterações.
+```text
+AmazonEC2ReadOnlyAccess
+```
+
+Essa política forneceu ao `user-2` acesso somente para leitura aos recursos do Amazon EC2.
 
 #### EC2-Admin
 
-O grupo `EC2-Admin` foi configurado com uma política inline chamada `EC2-Admin-Policy`.
+O grupo `EC2-Admin` recebeu uma política inline chamada:
+
+```text
+EC2-Admin-Policy
+```
 
 A política permitiu que o `user-3` visualizasse instâncias EC2 e realizasse ações de iniciar e parar instâncias.
 
-### 4. Teste das Permissões
+---
 
-As permissões configuradas foram testadas utilizando cada usuário IAM.
+## Validação das Permissões
 
-#### user-1 — S3-Support
+As permissões foram validadas realizando ações com cada usuário IAM.
 
-O `user-1` conseguiu acessar o Amazon S3 e visualizar os buckets disponíveis e seus conteúdos.
+| Usuário  | Acesso Esperado              | Validação                                                            |
+| -------- | ---------------------------- | -------------------------------------------------------------------- |
+| `user-1` | S3 somente leitura           | Recursos S3 acessíveis; acesso ao EC2 negado                         |
+| `user-2` | EC2 somente leitura          | Recursos EC2 visíveis; ação de parar negada; acesso ao S3 negado     |
+| `user-3` | Ações administrativas no EC2 | Recursos EC2 visíveis; ação de parar instância realizada com sucesso |
 
-O usuário não conseguiu acessar os recursos do Amazon EC2 porque o grupo atribuído não possuía permissões para EC2.
+Os testes demonstraram, na prática, como as políticas IAM determinam quais ações cada usuário pode executar sobre os recursos da AWS.
 
-#### user-2 — EC2-Support
-
-O `user-2` conseguiu visualizar as instâncias do Amazon EC2.
-
-Ao tentar parar uma instância, a operação foi negada porque a política atribuída fornece acesso somente para leitura.
-
-O usuário também não conseguiu listar os buckets do Amazon S3.
-
-#### user-3 — EC2-Admin
-
-O `user-3` conseguiu visualizar as instâncias do Amazon EC2 e parar uma instância com sucesso.
-
-Esse teste confirmou que as permissões configuradas permitiam realizar ações além do acesso somente para leitura nos recursos EC2.
+---
 
 ## Resultado
 
-O laboratório foi concluído com a configuração de usuários IAM, grupos, uma política de senha e diferentes permissões de acesso.
+O laboratório implementou com sucesso um modelo básico de **controle de acesso baseado em funções**, utilizando grupos e políticas IAM.
 
-Foram realizados testes de permissões com os três usuários, demonstrando as diferenças entre acesso somente para leitura ao S3, acesso somente para leitura ao EC2 e permissões para realizar ações sobre recursos EC2.
+Os testes de permissões confirmaram três cenários distintos:
+
+* **Acesso somente para leitura ao S3**
+* **Acesso somente para leitura ao EC2**
+* **Acesso ao EC2 com permissão para realizar ações sobre recursos**
+
+O laboratório também proporcionou contato prático com a relação entre **usuários, grupos, políticas e permissões** na AWS.
+
+---
+
+## Principais Aprendizados
+
+Este laboratório proporcionou contato prático com conceitos fundamentais de gerenciamento de identidade e acesso na AWS:
+
+* Criação e gerenciamento de **usuários e grupos IAM**
+* Aplicação de permissões por meio de **políticas gerenciadas e inline**
+* Compreensão da diferença entre **acesso somente para leitura e permissões de ação**
+* Configuração de uma **política de senha** para a conta
+* Validação de permissões através de interações reais com recursos AWS
+* Compreensão de como as políticas IAM controlam o acesso aos recursos da AWS
