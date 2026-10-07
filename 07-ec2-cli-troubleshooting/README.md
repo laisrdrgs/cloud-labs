@@ -1,4 +1,4 @@
-# Troubleshooting the Creation of an EC2 Instance
+# Lab — Troubleshooting the Creation of an EC2 Instance
 
 [English](#english) | [Português](#português)
 
