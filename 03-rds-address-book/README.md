@@ -84,8 +84,8 @@ The inbound rule allows MySQL/Aurora traffic on TCP `3306`, with the `Web Securi
 
 The `DB Subnet Group` was configured with two private subnets distributed across Availability Zones:
 
-* Private Subnet 1 — `10.0.1.0/24`
-* Private Subnet 2 — `10.0.3.0/24`
+* Private Subnet 1 — `10.0.1.0/24`.
+* Private Subnet 2 — `10.0.3.0/24`.
 
 ![DB Subnet Group Details](./subnet-group-details.png)
 
@@ -250,8 +250,8 @@ A regra de entrada permite tráfego MySQL/Aurora na porta TCP `3306`, utilizando
 
 O `DB Subnet Group` foi configurado utilizando duas subnets privadas distribuídas entre Availability Zones:
 
-* Private Subnet 1 — `10.0.1.0/24`
-* Private Subnet 2 — `10.0.3.0/24`
+* Private Subnet 1 — `10.0.1.0/24`.
+* Private Subnet 2 — `10.0.3.0/24`.
 
 ![Detalhes do DB Subnet Group](./subnet-group-details.png)
 
