@@ -74,16 +74,16 @@ flowchart TB
 
 ## Services & Resources
 
-| AWS Service / Resource | Purpose                                         |
-| ---------------------- | ----------------------------------------------- |
-| **Amazon VPC**         | Virtual network for the infrastructure.         |
-| **Subnets**            | Network segmentation across Availability Zones. |
-| **Route Tables**       | Traffic routing for public and private subnets. |
-| **Internet Gateway**   | Internet connectivity for public resources.     |
-| **NAT Gateway**        | Outbound internet access for private resources. |
-| **Amazon EC2**         | Web server host.                                |
-| **Security Groups**    | Instance-level network access control.          |
-| **User Data**          | Automated instance configuration.               |
+| AWS Service / Resource | Purpose                                        |
+| ---------------------- | ---------------------------------------------- |
+| **Amazon VPC**         | Virtual network for the infrastructure         |
+| **Subnets**            | Network segmentation across Availability Zones |
+| **Route Tables**       | Traffic routing for public and private subnets |
+| **Internet Gateway**   | Internet connectivity for public resources     |
+| **NAT Gateway**        | Outbound internet access for private resources |
+| **Amazon EC2**         | Web server host                                |
+| **Security Groups**    | Instance-level network access control          |
+| **User Data**          | Automated instance configuration               |
 
 ---
 
@@ -242,16 +242,16 @@ flowchart TB
 
 ## Serviços e Recursos
 
-| Serviço / Recurso AWS | Finalidade                                           |
-| --------------------- | ---------------------------------------------------- |
-| **Amazon VPC**        | Rede virtual da infraestrutura.                      |
-| **Subnets**           | Segmentação da rede entre Availability Zones.        |
-| **Route Tables**      | Roteamento do tráfego das subnets.                   |
-| **Internet Gateway**  | Conectividade com a internet para recursos públicos. |
-| **NAT Gateway**       | Acesso de saída à internet para recursos privados.   |
-| **Amazon EC2**        | Hospedagem do web server.                            |
-| **Security Groups**   | Controle de acesso à instância.                      |
-| **User Data**         | Configuração automatizada da instância.              |
+| Serviço / Recurso AWS | Finalidade                                          |
+| --------------------- | --------------------------------------------------- |
+| **Amazon VPC**        | Rede virtual da infraestrutura                      |
+| **Subnets**           | Segmentação da rede entre Availability Zones        |
+| **Route Tables**      | Roteamento do tráfego das subnets                   |
+| **Internet Gateway**  | Conectividade com a internet para recursos públicos |
+| **NAT Gateway**       | Acesso de saída à internet para recursos privados   |
+| **Amazon EC2**        | Hospedagem do web server                            |
+| **Security Groups**   | Controle de acesso à instância                      |
+| **User Data**         | Configuração automatizada da instância              |
 
 ---
 
