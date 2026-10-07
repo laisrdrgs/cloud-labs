@@ -16,7 +16,7 @@ The lab explored multiple Systems Manager capabilities for **instance inventory,
 
 The EC2 instance was managed through Systems Manager capabilities instead of requiring direct SSH access.
 
-```mermaid id="7x9x7n"
+```mermaid
 flowchart LR
     CONSOLE["AWS Management Console"]
 
@@ -90,10 +90,10 @@ This provided visibility into the instance configuration without requiring an SS
 
 A pre-configured Systems Manager document was executed against the instance. The operation installed the application components, including:
 
-* Apache web server
-* PHP
-* AWS SDK
-* Widget Manufacturing Dashboard
+* Apache web server.
+* PHP.
+* AWS SDK.
+* Widget Manufacturing Dashboard.
 
 The command completed successfully and the application became accessible through the instance's public IP address.
 
@@ -131,7 +131,7 @@ This demonstrated how application configuration can be managed externally throug
 
 The application files were inspected with:
 
-```bash id="fy24xz"
+```bash
 ls /var/www/html
 ```
 
@@ -139,14 +139,14 @@ The AWS CLI was also used from inside the Session Manager session.
 
 The instance Availability Zone metadata was used to determine the AWS Region:
 
-```bash id="a3q6o4"
+```bash
 AZ=`curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone`
 export AWS_DEFAULT_REGION=${AZ::-1}
 ```
 
 The EC2 API was then queried with:
 
-```bash id="j8a4fj"
+```bash
 aws ec2 describe-instances
 ```
 
@@ -160,7 +160,7 @@ This validated that the instance could be administrated through Session Manager 
 
 The lab demonstrated four complementary Systems Manager capabilities:
 
-```mermaid id="e1i3gz"
+```mermaid
 flowchart LR
     A["EC2 Instance"] --> B["Inventory"]
     A --> C["Run Command"]
@@ -216,7 +216,7 @@ O laboratório explorou diferentes funcionalidades do Systems Manager para **inv
 
 A instância EC2 foi gerenciada por meio das funcionalidades do Systems Manager, sem depender de uma conexão SSH direta.
 
-```mermaid id="5f6z8r"
+```mermaid
 flowchart LR
     CONSOLE["AWS Management Console"]
 
@@ -290,9 +290,9 @@ O **Run Command** foi utilizado para instalar o Widget Manufacturing Dashboard n
 
 Um documento pré-configurado do Systems Manager foi executado na instância. A operação instalou os componentes necessários, incluindo:
 
-* servidor web Apache;
-* PHP;
-* AWS SDK;
+* Servidor web Apache.
+* PHP.
+* AWS SDK.
 * Widget Manufacturing Dashboard.
 
 O comando foi concluído com sucesso e a aplicação ficou disponível por meio do endereço IP público da instância.
@@ -331,7 +331,7 @@ O **Session Manager** foi utilizado para estabelecer uma sessão interativa com 
 
 Os arquivos da aplicação foram consultados com:
 
-```bash id="bd5f5v"
+```bash
 ls /var/www/html
 ```
 
@@ -339,14 +339,14 @@ A AWS CLI também foi utilizada dentro da sessão do Session Manager.
 
 Os metadados da Availability Zone da instância foram utilizados para determinar a região da AWS:
 
-```bash id="j5z2mg"
+```bash
 AZ=`curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone`
 export AWS_DEFAULT_REGION=${AZ::-1}
 ```
 
 Em seguida, a API do EC2 foi consultada com:
 
-```bash id="q7h1m8"
+```bash
 aws ec2 describe-instances
 ```
 
@@ -360,7 +360,7 @@ Isso validou que a instância poderia ser administrada por meio do Session Manag
 
 O laboratório demonstrou quatro funcionalidades complementares do Systems Manager:
 
-```mermaid id="u7s8t9"
+```mermaid
 flowchart LR
     A["Instância EC2"] --> B["Inventory"]
     A --> C["Run Command"]
