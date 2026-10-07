@@ -8,298 +8,272 @@
 
 ## Objective
 
-The objective of this lab was to practice using the **AWS Command Line Interface (AWS CLI)** from an Amazon EC2 instance to create and configure an Amazon S3 bucket and deploy a static website.
+Practice deploying and updating a static website on **Amazon S3** using the **AWS CLI** from an Amazon EC2 instance.
 
-During the lab, AWS CLI commands were used to create an S3 bucket, create and configure an IAM user with full access to Amazon S3, configure the bucket for static website hosting, upload website files, and create a Bash script to make future website updates repeatable.
+The lab combined AWS CLI, IAM, S3 static website hosting, object permissions, and Bash scripting to create a repeatable website deployment workflow.
 
 ## Architecture
 
-The lab used an Amazon Linux EC2 instance as the command-line environment and an Amazon S3 bucket to store and host the static website.
+The EC2 instance served as the command-line environment. It was accessed through **AWS Systems Manager Session Manager** and used the AWS CLI to manage IAM and S3 resources.
 
-The EC2 instance was accessed through **AWS Systems Manager Session Manager**. From the EC2 instance, the AWS CLI was used to manage IAM and Amazon S3 resources.
-
-The website files were uploaded to the S3 bucket and made available through the S3 website endpoint.
-
-```mermaid
+```mermaid id="f7r3xq"
 flowchart LR
-    A["AWS Management Console"] --> B["AWS Systems Manager"]
-    B --> C["EC2 Instance"]
+    CONSOLE["AWS Management Console"]
+    SSM["AWS Systems Manager<br/>Session Manager"]
+    EC2["Amazon EC2"]
+    CLI["AWS CLI"]
+    IAM["AWS IAM"]
+    USER["awsS3user"]
+    S3["Amazon S3"]
+    SITE["Static Website"]
+    CLIENT["Website Client"]
+    SCRIPT["Bash Deployment Script"]
 
-    C --> D["AWS CLI"]
+    CONSOLE --> SSM
+    SSM --> EC2
+    EC2 --> CLI
 
-    D --> E["AWS IAM"]
-    E --> F["awsS3user"]
+    CLI --> IAM
+    IAM --> USER
 
-    D --> G["Amazon S3"]
-    G --> H["Static Website"]
-    H --> I["Website Client"]
+    CLI --> S3
+    EC2 --> SCRIPT
+    SCRIPT --> S3
 
-    C --> J["Website Source Files"]
-    J --> D
+    S3 --> SITE
+    CLIENT --> SITE
 ```
 
-## Services and Resources Used
+### Deployment Model
 
-* **Amazon EC2** — Linux instance used as the command-line environment
-* **AWS Systems Manager Session Manager** — used to access the EC2 instance through a browser-based shell
-* **AWS CLI** — used to manage IAM and Amazon S3 resources
-* **AWS IAM** — used to create and configure the `awsS3user` user
-* **Amazon S3** — used to store the website files and host the static website
-* **S3 Static Website Hosting** — used to make the website available through the S3 website endpoint
-* **S3 Bucket ACLs** — used to grant public read access to uploaded website objects
-* **Bash** — used to create a script for updating the website
+| Component        | Role                               |
+| ---------------- | ---------------------------------- |
+| Amazon EC2       | CLI and deployment environment     |
+| Session Manager  | Remote access without SSH          |
+| AWS CLI          | IAM and S3 resource management     |
+| IAM              | User and permission management     |
+| Amazon S3        | Static website storage and hosting |
+| Bash             | Repeatable website deployment      |
+| Website endpoint | Access point for the deployed site |
 
-## Steps Performed
+## Services & Resources
 
-### 1. Connecting to the EC2 Instance with Session Manager
+| Service / Resource                  | Purpose                                              |
+| ----------------------------------- | ---------------------------------------------------- |
+| Amazon EC2                          | Provides the Linux environment used for deployment   |
+| AWS Systems Manager Session Manager | Provides browser-based access to EC2                 |
+| AWS CLI                             | Manages AWS resources from the command line          |
+| AWS IAM                             | Creates and configures the S3 lab user               |
+| Amazon S3                           | Stores and hosts the static website                  |
+| S3 Static Website Hosting           | Publishes the website through an S3 website endpoint |
+| S3 ACLs                             | Provides the public-read permissions used by the lab |
+| Bash                                | Automates repeated website uploads                   |
 
-The first task was to connect to the Amazon Linux EC2 instance through **AWS Systems Manager Session Manager**.
+## Implementation
 
-A browser-based Session Manager session was started using the `InstanceSessionUrl` provided by the lab environment.
+### 1. CLI Environment
 
-After connecting to the instance, the user and home directory were changed to `ec2-user`:
+The Amazon Linux EC2 instance was accessed through **Systems Manager Session Manager**.
 
-```bash
+The `ec2-user` account was used as the working environment:
+
+```bash id="r7s4q1"
 sudo su -l ec2-user
-```
-
-The current working directory was then verified:
-
-```bash
 pwd
 ```
 
-This provided the command-line environment used throughout the lab.
+The AWS CLI was already available on the instance and was configured for the lab environment:
 
-### 2. Configuring the AWS CLI
-
-The AWS CLI was already installed on the Amazon Linux instance.
-
-The `aws configure` command was used to configure the AWS CLI with the credentials provided by the lab environment:
-
-```bash
+```bash id="u2m9c8"
 aws configure
 ```
 
-The following configuration values were entered:
+The configuration used the `us-west-2` region and JSON as the default output format.
 
-```text
-AWS Access Key ID: AccessKey
-AWS Secret Access Key: SecretKey
-Default region name: us-west-2
-Default output format: json
+Credentials were intentionally omitted from the documentation.
+
+### 2. S3 Bucket Creation
+
+An S3 bucket was created in `us-west-2` using the AWS CLI:
+
+```bash id="m5v2kd"
+aws s3api create-bucket \
+  --bucket laisrdrgs17 \
+  --region us-west-2 \
+  --create-bucket-configuration LocationConstraint=us-west-2
 ```
 
-The credentials used during the lab were not included in this documentation or repository.
+The bucket became the storage and hosting location for the static website.
 
-### 3. Creating an S3 Bucket with the AWS CLI
+### 3. IAM User and S3 Permissions
 
-An Amazon S3 bucket was created using the AWS CLI in the `us-west-2` Region:
+A dedicated IAM user named `awsS3user` was created for the lab.
 
-```bash
-aws s3api create-bucket --bucket laisrdrgs17 --region us-west-2 --create-bucket-configuration LocationConstraint=us-west-2
-```
+The user was configured with the AWS-managed `AmazonS3FullAccess` policy to allow S3 management through the AWS Management Console.
 
-The command returned a JSON response containing the location of the newly created bucket.
-
-The bucket was then used to store the static website files.
-
-### 4. Creating and Configuring an IAM User
-
-A new IAM user named `awsS3user` was created using the AWS CLI:
-
-```bash
+```bash id="p8n4hz"
 aws iam create-user --user-name awsS3user
+
+aws iam attach-user-policy \
+  --policy-arn arn:aws:iam::aws:policy/AmazonS3FullAccess \
+  --user-name awsS3user
 ```
 
-A console login profile was then created:
+The `AmazonS3FullAccess` permission was used specifically to satisfy the lab exercise and is intentionally broader than a least-privilege production configuration.
 
-```bash
-aws iam create-login-profile --user-name awsS3user --password <lab-password>
-```
+### 4. Public Website Configuration
 
-The AWS account ID provided by the lab environment was used to sign in to the AWS Management Console as the new IAM user.
+The S3 bucket was configured for the static website deployment used in the lab.
 
-To identify AWS managed policies related to Amazon S3, the following command was executed:
+The relevant settings were:
 
-```bash
-aws iam list-policies --query "Policies[?contains(PolicyName,'S3')]"
-```
+| Setting                | Lab Configuration |
+| ---------------------- | ----------------- |
+| Static website hosting | Enabled           |
+| Index document         | `index.html`      |
+| Block Public Access    | Disabled          |
+| Object Ownership       | ACLs enabled      |
+| Object access          | Public read       |
 
-The `AmazonS3FullAccess` policy was then attached to the `awsS3user` user:
+These settings allowed the uploaded website objects to be accessed through the S3 website endpoint.
 
-```bash
-aws iam attach-user-policy --policy-arn arn:aws:iam::aws:policy/AmazonS3FullAccess --user-name awsS3user
-```
+### 5. Website Files
 
-This allowed the newly created IAM user to access and manage Amazon S3 resources through the AWS Management Console.
+The provided website archive was extracted on the EC2 instance:
 
-### 5. Adjusting S3 Bucket Permissions
-
-The S3 bucket permissions were then configured so that the website could be served publicly.
-
-In the Amazon S3 console, **Block all public access** was disabled.
-
-The bucket's **Object Ownership** configuration was also modified to enable ACLs.
-
-The following settings were configured:
-
-```text
-Block all public access: Disabled
-Object Ownership: ACLs enabled
-```
-
-These settings allowed the website objects to use ACL-based public read permissions.
-
-### 6. Extracting the Website Files
-
-The website files provided by the lab were stored in the `static-website-v2.tar.gz` archive.
-
-The archive was extracted using:
-
-```bash
+```bash id="v0s6ye"
 cd ~/sysops-activity-files
 tar xvzf static-website-v2.tar.gz
 cd static-website
-```
-
-The contents of the directory were then verified:
-
-```bash
 ls
 ```
 
-The extracted files included:
+The website contained:
 
 ```text
-css
-images
+css/
+images/
 index.html
 ```
 
 ![Extracted static website files](./static-website-files.png)
 
-The `index.html` file contained the main page of the Café website, while the `css` and `images` directories contained the resources required by the page.
+### 6. Website Deployment
 
-### 7. Deploying the Website to Amazon S3
+Static website hosting was configured with `index.html` as the entry point:
 
-The S3 bucket was configured for static website hosting with `index.html` as the index document:
-
-```bash
+```bash id="a6q3wb"
 aws s3 website s3://laisrdrgs17/ --index-document index.html
 ```
 
-The website files were then uploaded recursively to the bucket:
+The website files were then uploaded recursively:
 
-```bash
-aws s3 cp /home/ec2-user/sysops-activity-files/static-website/ s3://laisrdrgs17/ --recursive --acl public-read
+```bash id="c1n8yp"
+aws s3 cp \
+  /home/ec2-user/sysops-activity-files/static-website/ \
+  s3://laisrdrgs17/ \
+  --recursive \
+  --acl public-read
 ```
 
-The `--recursive` option uploaded the complete website directory structure, while `--acl public-read` granted public read access to the uploaded objects.
+The bucket contents were validated with:
 
-The bucket contents were verified using:
-
-```bash
+```bash id="z4m7fx"
 aws s3 ls s3://laisrdrgs17/
 ```
 
-The S3 **Bucket website endpoint** was then used to access the deployed website.
+The resulting website was accessed through the S3 website endpoint.
 
 ![Café website](./cafe-website.png)
 
-The Café website was successfully displayed in the browser.
+### 7. Deployment Automation with Bash
 
-### 8. Creating a Script to Update the Website
+A Bash script named `update-website.sh` was created to make subsequent website uploads repeatable.
 
-The next task was to create a Bash script to repeat the website upload process whenever the local website files were modified.
-
-The command history was reviewed to identify the S3 upload command:
-
-```bash
-history
-```
-
-A new script file was created in the EC2 user's home directory:
-
-```bash
-cd ~
-touch update-website.sh
-```
-
-The file was opened using the `vi` editor:
-
-```bash
-vi update-website.sh
-```
-
-The script was configured with the Bash interpreter declaration and the S3 upload command:
-
-```bash
+```bash id="k9p3dt"
 #!/bin/bash
-aws s3 cp /home/ec2-user/sysops-activity-files/static-website/ s3://laisrdrgs17/ --recursive --acl public-read
+aws s3 cp /home/ec2-user/sysops-activity-files/static-website/ \
+  s3://laisrdrgs17/ \
+  --recursive \
+  --acl public-read
 ```
 
-The file was made executable:
+The script was made executable:
 
-```bash
+```bash id="x5r2vc"
 chmod +x update-website.sh
 ```
 
-The script could then be executed with:
+It could then be executed with:
 
-```bash
+```bash id="n3q8la"
 ./update-website.sh
 ```
 
-This created a simple way to repeat the website upload process.
+This converted the manual upload process into a simple repeatable deployment step.
 
-### 9. Modifying the Website Locally
+### 8. Website Update
 
-To test the update script, the local `index.html` file was modified using the `vi` editor:
-
-```bash
-vi sysops-activity-files/static-website/index.html
-```
-
-The background colors defined in the HTML were changed as follows:
-
-```text
-aquamarine → gainsboro
-orange → cornsilk
-aquamarine → gainsboro
-```
-
-The edited HTML file was then saved.
+The local `index.html` file was modified to change the website's background colors.
 
 ![Editing the website HTML file](./index-html.png)
 
-After the modification, the updated website files were uploaded again by executing:
+The updated website was deployed by running:
 
-```bash
+```bash id="w6h1zs"
 ./update-website.sh
 ```
 
-The Café website could then be refreshed in the browser to display the updated version.
+After refreshing the S3 website endpoint, the updated version of the Café website was displayed.
 
-This demonstrated how the Bash script could be reused to upload updated website files.
+## Deployment Workflow
+
+The complete workflow can be summarized as:
+
+```mermaid id="c8v5qn"
+flowchart LR
+    SOURCE["Website Source Files"]
+    SCRIPT["update-website.sh"]
+    CLI["AWS CLI"]
+    S3["Amazon S3 Bucket"]
+    ENDPOINT["S3 Website Endpoint"]
+    CLIENT["Browser"]
+
+    SOURCE --> SCRIPT
+    SCRIPT --> CLI
+    CLI --> S3
+    S3 --> ENDPOINT
+    ENDPOINT --> CLIENT
+```
+
+The Bash script provided a basic deployment automation layer between the local website source and the S3-hosted application.
+
+## Validation
+
+The deployment was validated by confirming that:
+
+* The S3 bucket was created successfully.
+* Website files were uploaded to the bucket.
+* Static website hosting was enabled.
+* The Café website was accessible through the S3 website endpoint.
+* The deployment script successfully uploaded subsequent changes.
+* A modification to `index.html` was reflected in the deployed website.
 
 ## Result
 
-The lab was completed by deploying and updating a static website on Amazon S3 using the AWS CLI from an Amazon EC2 instance.
+A static website was successfully deployed and updated on **Amazon S3 using the AWS CLI** from an EC2-based Linux environment.
 
-The lab included:
+The lab demonstrated an end-to-end workflow involving **IAM permissions, S3 configuration, static website hosting, object access control, AWS CLI operations, and Bash-based deployment automation**.
 
-* accessing an Amazon Linux EC2 instance through AWS Systems Manager Session Manager;
-* configuring the AWS CLI with the credentials provided by the lab environment;
-* creating an Amazon S3 bucket in the `us-west-2` Region;
-* creating an IAM user with full access to Amazon S3;
-* configuring S3 public access and object ACL settings;
-* extracting the static website files;
-* configuring S3 static website hosting;
-* uploading the website files through the AWS CLI;
-* accessing the Café website through the S3 website endpoint;
-* creating a Bash script to repeat the website upload process;
-* modifying the website source code and uploading the updated version to Amazon S3.
+## Key Takeaways
+
+* Managing Amazon S3 resources through the AWS CLI.
+* Creating and configuring S3 static website hosting.
+* Understanding the relationship between IAM permissions and AWS CLI operations.
+* Working with S3 object permissions and ACLs in a lab environment.
+* Deploying static website files to Amazon S3.
+* Using Bash to make repetitive deployment tasks reproducible.
+* Updating a deployed website through a simple CLI-based workflow.
 
 ---
 
@@ -307,295 +281,269 @@ The lab included:
 
 ## Objetivo
 
-O objetivo deste laboratório foi praticar a utilização da **AWS Command Line Interface (AWS CLI)** a partir de uma instância Amazon EC2 para criar e configurar um bucket Amazon S3 e realizar o deploy de um website estático.
+Praticar o deployment e a atualização de um website estático no **Amazon S3** utilizando a **AWS CLI** a partir de uma instância Amazon EC2.
 
-Durante o laboratório, foram utilizados comandos da AWS CLI para criar um bucket S3, criar e configurar um usuário IAM com acesso completo ao Amazon S3, configurar o bucket para hospedagem de website estático, realizar o upload dos arquivos do website e criar um script Bash para tornar as futuras atualizações do website repetíveis.
+O laboratório combinou AWS CLI, IAM, hospedagem de website estático no S3, permissões de objetos e scripting Bash para criar um fluxo repetível de deployment.
 
 ## Arquitetura
 
-O laboratório utilizou uma instância EC2 com Amazon Linux como ambiente de linha de comando e um bucket Amazon S3 para armazenar e hospedar o website estático.
+A instância EC2 foi utilizada como ambiente de linha de comando. O acesso foi realizado por meio do **AWS Systems Manager Session Manager**, enquanto a AWS CLI foi utilizada para gerenciar recursos do IAM e do S3.
 
-A instância EC2 foi acessada por meio do **AWS Systems Manager Session Manager**. A partir da instância EC2, a AWS CLI foi utilizada para gerenciar recursos do IAM e do Amazon S3.
-
-Os arquivos do website foram enviados para o bucket S3 e disponibilizados por meio do endpoint de website do S3.
-
-```mermaid
+```mermaid id="v9k2lm"
 flowchart LR
-    A["AWS Management Console"] --> B["AWS Systems Manager"]
-    B --> C["Instância EC2"]
+    CONSOLE["AWS Management Console"]
+    SSM["AWS Systems Manager<br/>Session Manager"]
+    EC2["Amazon EC2"]
+    CLI["AWS CLI"]
+    IAM["AWS IAM"]
+    USER["awsS3user"]
+    S3["Amazon S3"]
+    SITE["Website Estático"]
+    CLIENT["Cliente"]
+    SCRIPT["Script Bash de Deployment"]
 
-    C --> D["AWS CLI"]
+    CONSOLE --> SSM
+    SSM --> EC2
+    EC2 --> CLI
 
-    D --> E["AWS IAM"]
-    E --> F["awsS3user"]
+    CLI --> IAM
+    IAM --> USER
 
-    D --> G["Amazon S3"]
-    G --> H["Website Estático"]
-    H --> I["Cliente"]
+    CLI --> S3
+    EC2 --> SCRIPT
+    SCRIPT --> S3
 
-    C --> J["Arquivos do Website"]
-    J --> D
+    S3 --> SITE
+    CLIENT --> SITE
 ```
 
-## Serviços e Recursos Utilizados
+### Modelo de Deployment
 
-* **Amazon EC2** — instância Linux utilizada como ambiente de linha de comando
-* **AWS Systems Manager Session Manager** — utilizado para acessar a instância EC2 por meio de um shell no navegador
-* **AWS CLI** — utilizada para gerenciar recursos do IAM e do Amazon S3
-* **AWS IAM** — utilizado para criar e configurar o usuário `awsS3user`
-* **Amazon S3** — utilizado para armazenar os arquivos e hospedar o website estático
-* **S3 Static Website Hosting** — utilizado para disponibilizar o website por meio do endpoint de website do S3
-* **S3 Bucket ACLs** — utilizadas para conceder acesso público de leitura aos objetos enviados
-* **Bash** — utilizado para criar um script de atualização do website
+| Componente       | Função                                |
+| ---------------- | ------------------------------------- |
+| Amazon EC2       | Ambiente de CLI e deployment          |
+| Session Manager  | Acesso remoto sem SSH                 |
+| AWS CLI          | Gerenciamento de recursos IAM e S3    |
+| IAM              | Gerenciamento de usuário e permissões |
+| Amazon S3        | Armazenamento e hospedagem do website |
+| Bash             | Deployment repetível do website       |
+| Website endpoint | Ponto de acesso ao website publicado  |
 
-## Etapas Realizadas
+## Serviços e Recursos
 
-### 1. Acesso à Instância EC2 com Session Manager
+| Serviço / Recurso                   | Finalidade                                                          |
+| ----------------------------------- | ------------------------------------------------------------------- |
+| Amazon EC2                          | Fornece o ambiente Linux utilizado no deployment                    |
+| AWS Systems Manager Session Manager | Fornece acesso baseado em navegador à EC2                           |
+| AWS CLI                             | Gerencia recursos da AWS pela linha de comando                      |
+| AWS IAM                             | Cria e configura o usuário do laboratório                           |
+| Amazon S3                           | Armazena e hospeda o website estático                               |
+| S3 Static Website Hosting           | Publica o website através de um endpoint do S3                      |
+| S3 ACLs                             | Fornecem as permissões de leitura pública utilizadas no laboratório |
+| Bash                                | Automatiza uploads repetitivos do website                           |
 
-A primeira etapa consistiu em acessar a instância Amazon Linux por meio do **AWS Systems Manager Session Manager**.
+## Implementação
 
-Foi iniciada uma sessão baseada no navegador utilizando o `InstanceSessionUrl` fornecido pelo ambiente do laboratório.
+### 1. Ambiente de CLI
 
-Após a conexão com a instância, o usuário e o diretório inicial foram alterados para `ec2-user`:
+A instância Amazon Linux EC2 foi acessada por meio do **Systems Manager Session Manager**.
 
-```bash
+O usuário `ec2-user` foi utilizado como ambiente de trabalho:
+
+```bash id="h4r8ny"
 sudo su -l ec2-user
-```
-
-Em seguida, o diretório atual foi verificado:
-
-```bash
 pwd
 ```
 
-Esse ambiente de linha de comando foi utilizado durante as demais etapas do laboratório.
+A AWS CLI já estava disponível na instância e foi configurada para o ambiente do laboratório:
 
-### 2. Configuração da AWS CLI
-
-A AWS CLI já estava instalada na instância Amazon Linux.
-
-O comando `aws configure` foi utilizado para configurar a AWS CLI com as credenciais fornecidas pelo ambiente do laboratório:
-
-```bash
+```bash id="s7m2qx"
 aws configure
 ```
 
-Foram configurados os seguintes valores:
+A configuração utilizou a região `us-west-2` e JSON como formato de saída padrão.
 
-```text
-AWS Access Key ID: AccessKey
-AWS Secret Access Key: SecretKey
-Default region name: us-west-2
-Default output format: json
+As credenciais foram intencionalmente omitidas da documentação.
+
+### 2. Criação do Bucket S3
+
+Um bucket S3 foi criado na região `us-west-2` utilizando a AWS CLI:
+
+```bash id="d5k9pv"
+aws s3api create-bucket \
+  --bucket laisrdrgs17 \
+  --region us-west-2 \
+  --create-bucket-configuration LocationConstraint=us-west-2
 ```
 
-As credenciais utilizadas durante o laboratório não foram incluídas nesta documentação ou no repositório.
+O bucket passou a ser utilizado como local de armazenamento e hospedagem do website estático.
 
-### 3. Criação do Bucket S3 com a AWS CLI
+### 3. Usuário IAM e Permissões do S3
 
-Foi criado um bucket Amazon S3 utilizando a AWS CLI na região `us-west-2`:
+Foi criado um usuário IAM dedicado denominado `awsS3user`.
 
-```bash
-aws s3api create-bucket --bucket laisrdrgs17 --region us-west-2 --create-bucket-configuration LocationConstraint=us-west-2
-```
+O usuário recebeu a política gerenciada pela AWS `AmazonS3FullAccess` para permitir o gerenciamento de recursos S3 pelo AWS Management Console.
 
-O comando retornou uma resposta em formato JSON contendo a localização do bucket criado.
-
-O bucket passou a ser utilizado para armazenar os arquivos do website estático.
-
-### 4. Criação e Configuração de um Usuário IAM
-
-Foi criado um novo usuário IAM denominado `awsS3user` utilizando a AWS CLI:
-
-```bash
+```bash id="q3w7mb"
 aws iam create-user --user-name awsS3user
+
+aws iam attach-user-policy \
+  --policy-arn arn:aws:iam::aws:policy/AmazonS3FullAccess \
+  --user-name awsS3user
 ```
 
-Em seguida, foi criado um perfil de login:
+A permissão `AmazonS3FullAccess` foi utilizada especificamente para atender ao exercício do laboratório e é mais ampla do que uma configuração de menor privilégio recomendada para produção.
 
-```bash
-aws iam create-login-profile --user-name awsS3user --password <senha-do-lab>
-```
+### 4. Configuração do Website Público
 
-O Account ID fornecido pelo ambiente do laboratório foi utilizado para realizar o login no AWS Management Console como o novo usuário IAM.
+O bucket S3 foi configurado para o deployment do website estático utilizado no laboratório.
 
-Para identificar as políticas gerenciadas pela AWS relacionadas ao Amazon S3, foi executado:
+As principais configurações foram:
 
-```bash
-aws iam list-policies --query "Policies[?contains(PolicyName,'S3')]"
-```
+| Configuração           | Configuração do Laboratório |
+| ---------------------- | --------------------------- |
+| Static website hosting | Habilitado                  |
+| Index document         | `index.html`                |
+| Block Public Access    | Desabilitado                |
+| Object Ownership       | ACLs habilitadas            |
+| Acesso aos objetos     | Leitura pública             |
 
-A política `AmazonS3FullAccess` foi então associada ao usuário `awsS3user`:
+Essas configurações permitiram que os objetos enviados fossem acessados por meio do endpoint de website do S3.
 
-```bash
-aws iam attach-user-policy --policy-arn arn:aws:iam::aws:policy/AmazonS3FullAccess --user-name awsS3user
-```
+### 5. Arquivos do Website
 
-Dessa forma, o usuário IAM criado passou a ter acesso e permissão para gerenciar os recursos do Amazon S3 utilizados no laboratório.
+O arquivo contendo os arquivos fornecidos pelo laboratório foi extraído na instância EC2:
 
-### 5. Ajuste das Permissões do Bucket S3
-
-Em seguida, foram ajustadas as configurações de acesso do bucket para permitir que o website fosse disponibilizado publicamente.
-
-No console do Amazon S3, a opção **Block all public access** foi desabilitada.
-
-A configuração de **Object Ownership** também foi modificada para habilitar ACLs.
-
-As seguintes configurações foram utilizadas:
-
-```text
-Block all public access: Disabled
-Object Ownership: ACLs enabled
-```
-
-Essas configurações permitiram que os objetos do website utilizassem ACLs para conceder acesso público de leitura.
-
-### 6. Extração dos Arquivos do Website
-
-Os arquivos do website fornecidos pelo laboratório estavam armazenados no arquivo `static-website-v2.tar.gz`.
-
-O arquivo foi extraído utilizando:
-
-```bash
+```bash id="n8c4tz"
 cd ~/sysops-activity-files
 tar xvzf static-website-v2.tar.gz
 cd static-website
-```
-
-Em seguida, o conteúdo do diretório foi verificado:
-
-```bash
 ls
 ```
 
-Os arquivos extraídos incluíam:
+O website continha:
 
 ```text
-css
-images
+css/
+images/
 index.html
 ```
 
 ![Arquivos do website estático extraídos](./static-website-files.png)
 
-O arquivo `index.html` continha a página principal do website Café, enquanto os diretórios `css` e `images` continham os recursos necessários para a página.
+### 6. Deployment do Website
 
-### 7. Deploy do Website no Amazon S3
+A hospedagem de website estático foi configurada utilizando `index.html` como documento principal:
 
-O bucket S3 foi configurado para hospedagem de website estático, utilizando `index.html` como documento principal:
-
-```bash
+```bash id="b6m1zr"
 aws s3 website s3://laisrdrgs17/ --index-document index.html
 ```
 
-Em seguida, os arquivos do website foram enviados recursivamente para o bucket:
+Os arquivos foram então enviados recursivamente para o bucket:
 
-```bash
-aws s3 cp /home/ec2-user/sysops-activity-files/static-website/ s3://laisrdrgs17/ --recursive --acl public-read
+```bash id="t2q7wx"
+aws s3 cp \
+  /home/ec2-user/sysops-activity-files/static-website/ \
+  s3://laisrdrgs17/ \
+  --recursive \
+  --acl public-read
 ```
 
-A opção `--recursive` permitiu enviar toda a estrutura de diretórios do website, enquanto `--acl public-read` concedeu acesso público de leitura aos objetos enviados.
+O conteúdo do bucket foi validado com:
 
-O conteúdo do bucket foi verificado utilizando:
-
-```bash
+```bash id="y5n3kc"
 aws s3 ls s3://laisrdrgs17/
 ```
 
-O **Bucket website endpoint** do S3 foi então utilizado para acessar o website publicado.
+O website resultante foi acessado através do endpoint de website do S3.
 
 ![Café website](./cafe-website.png)
 
-O Café website foi exibido com sucesso no navegador.
+### 7. Automação do Deployment com Bash
 
-### 8. Criação de um Script para Atualização do Website
+Foi criado um script Bash chamado `update-website.sh` para tornar os uploads posteriores repetíveis.
 
-A etapa seguinte consistiu na criação de um script Bash para repetir o processo de upload sempre que os arquivos locais do website fossem modificados.
-
-O histórico de comandos foi consultado para identificar o comando de upload para o S3:
-
-```bash
-history
-```
-
-Um novo arquivo de script foi criado no diretório inicial do usuário:
-
-```bash
-cd ~
-touch update-website.sh
-```
-
-Em seguida, o arquivo foi aberto utilizando o editor `vi`:
-
-```bash
-vi update-website.sh
-```
-
-O script foi configurado com a declaração do interpretador Bash e o comando de upload para o S3:
-
-```bash
+```bash id="p4x8vs"
 #!/bin/bash
-aws s3 cp /home/ec2-user/sysops-activity-files/static-website/ s3://laisrdrgs17/ --recursive --acl public-read
+aws s3 cp /home/ec2-user/sysops-activity-files/static-website/ \
+  s3://laisrdrgs17/ \
+  --recursive \
+  --acl public-read
 ```
 
-O arquivo foi marcado como executável:
+O script foi tornado executável:
 
-```bash
+```bash id="r9k2fd"
 chmod +x update-website.sh
 ```
 
-O script pôde então ser executado utilizando:
+Em seguida, pôde ser executado com:
 
-```bash
+```bash id="w3c6hm"
 ./update-website.sh
 ```
 
-Dessa forma, foi criado um meio simples de repetir o processo de upload do website.
+Isso transformou o processo manual de upload em uma etapa simples e repetível de deployment.
 
-### 9. Modificação Local do Website
+### 8. Atualização do Website
 
-Para testar o script de atualização, o arquivo local `index.html` foi modificado utilizando o editor `vi`:
-
-```bash
-vi sysops-activity-files/static-website/index.html
-```
-
-As cores de fundo definidas no HTML foram alteradas da seguinte forma:
-
-```text
-aquamarine → gainsboro
-orange → cornsilk
-aquamarine → gainsboro
-```
-
-O arquivo HTML modificado foi então salvo.
+O arquivo local `index.html` foi modificado para alterar as cores de fundo do website.
 
 ![Edição do arquivo HTML do website](./index-html.png)
 
-Após a alteração, os arquivos atualizados foram enviados novamente executando:
+O website atualizado foi publicado executando:
 
-```bash
+```bash id="z8v1qn"
 ./update-website.sh
 ```
 
-O Café website pôde então ser atualizado no navegador para exibir a nova versão.
+Após atualizar a página do endpoint do website S3, a nova versão do Café website foi exibida.
 
-Essa etapa demonstrou como o script Bash poderia ser reutilizado para realizar o upload dos arquivos atualizados do website.
+## Fluxo de Deployment
+
+O fluxo completo pode ser representado da seguinte forma:
+
+```mermaid id="n5x7kp"
+flowchart LR
+    SOURCE["Arquivos do Website"]
+    SCRIPT["update-website.sh"]
+    CLI["AWS CLI"]
+    S3["Bucket Amazon S3"]
+    ENDPOINT["S3 Website Endpoint"]
+    CLIENT["Navegador"]
+
+    SOURCE --> SCRIPT
+    SCRIPT --> CLI
+    CLI --> S3
+    S3 --> ENDPOINT
+    ENDPOINT --> CLIENT
+```
+
+O script Bash forneceu uma camada básica de automação entre os arquivos locais do website e a aplicação hospedada no S3.
+
+## Validação
+
+O deployment foi validado confirmando que:
+
+* O bucket S3 foi criado corretamente.
+* Os arquivos do website foram enviados para o bucket.
+* A hospedagem de website estático foi habilitada.
+* O Café website ficou acessível através do endpoint do S3.
+* O script de deployment conseguiu enviar alterações posteriores.
+* Uma alteração no `index.html` foi refletida no website publicado.
 
 ## Resultado
 
-O laboratório foi concluído com o deployment e a atualização de um website estático no Amazon S3 utilizando a AWS CLI a partir de uma instância Amazon EC2.
+Um website estático foi publicado e atualizado com sucesso no **Amazon S3 utilizando a AWS CLI** a partir de um ambiente Linux baseado em EC2.
 
-O laboratório incluiu:
+O laboratório demonstrou um fluxo completo envolvendo **permissões IAM, configuração do S3, hospedagem de website estático, controle de acesso aos objetos, operações com AWS CLI e automação de deployment com Bash**.
 
-* acesso a uma instância Amazon Linux EC2 por meio do AWS Systems Manager Session Manager;
-* configuração da AWS CLI com as credenciais fornecidas pelo ambiente do laboratório;
-* criação de um bucket Amazon S3 na região `us-west-2`;
-* criação de um usuário IAM com acesso completo ao Amazon S3;
-* configuração do acesso público e das ACLs dos objetos do bucket;
-* extração dos arquivos do website estático;
-* configuração da hospedagem de website estático no Amazon S3;
-* upload dos arquivos do website utilizando a AWS CLI;
-* acesso ao Café website por meio do endpoint de website do S3;
-* criação de um script Bash para repetir o processo de upload;
-* modificação do código-fonte do website e upload da versão atualizada para o Amazon S3.
+## Principais Aprendizados
+
+* Gerenciamento de recursos Amazon S3 utilizando a AWS CLI.
+* Configuração de hospedagem de websites estáticos no S3.
+* Relação entre permissões IAM e operações realizadas pela AWS CLI.
+* Utilização de permissões e ACLs de objetos S3 em um ambiente de laboratório.
+* Deployment de arquivos de website estático no Amazon S3.
+* Utilização de Bash para tornar tarefas repetitivas de deployment reproduzíveis.
+* Atualização de um website publicado através de um fluxo simples baseado em CLI.
