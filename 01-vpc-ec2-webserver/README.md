@@ -74,16 +74,16 @@ flowchart TB
 
 ## Services & Resources
 
-| AWS Service / Resource | Purpose                                        |
-| ---------------------- | ---------------------------------------------- |
-| **Amazon VPC**         | Virtual network for the infrastructure         |
-| **Subnets**            | Network segmentation across Availability Zones |
-| **Route Tables**       | Traffic routing for public and private subnets |
-| **Internet Gateway**   | Internet connectivity for public resources     |
-| **NAT Gateway**        | Outbound internet access for private resources |
-| **Amazon EC2**         | Web server host                                |
-| **Security Groups**    | Instance-level network access control          |
-| **User Data**          | Automated instance configuration               |
+| AWS Service / Resource | Purpose                                         |
+| ---------------------- | ----------------------------------------------- |
+| **Amazon VPC**         | Virtual network for the infrastructure.         |
+| **Subnets**            | Network segmentation across Availability Zones. |
+| **Route Tables**       | Traffic routing for public and private subnets. |
+| **Internet Gateway**   | Internet connectivity for public resources.     |
+| **NAT Gateway**        | Outbound internet access for private resources. |
+| **Amazon EC2**         | Web server host.                                |
+| **Security Groups**    | Instance-level network access control.          |
+| **User Data**          | Automated instance configuration.               |
 
 ---
 
@@ -95,8 +95,8 @@ A `Lab VPC` was created using the `10.0.0.0/16` CIDR block.
 
 The environment was expanded to include four subnets across two Availability Zones:
 
-* 2 public subnets
-* 2 private subnets
+* 2 public subnets.
+* 2 private subnets.
 
 Public and private route tables were associated with their respective subnets.
 
@@ -114,12 +114,12 @@ A `Web Server 1` EC2 instance was deployed in **Public Subnet 2** with a public 
 
 **Instance configuration:**
 
-* **AMI:** Amazon Linux 2
-* **Instance type:** `t3.micro`
-* **VPC:** `Lab VPC`
-* **Subnet:** Public Subnet 2
-* **Security Group:** Web Security Group
-* **Key pair:** `vockey`
+* **AMI:** Amazon Linux 2.
+* **Instance type:** `t3.micro`.
+* **VPC:** `Lab VPC`.
+* **Subnet:** Public Subnet 2.
+* **Security Group:** Web Security Group.
+* **Key pair:** `vockey`.
 
 ### 4. Application Configuration
 
@@ -127,10 +127,10 @@ EC2 User Data was used to automate the initial server configuration.
 
 The instance was configured with:
 
-* Apache HTTP Server (`httpd`)
-* PHP
-* MariaDB
-* Application files under `/var/www/html/`
+* Apache HTTP Server (`httpd`).
+* PHP.
+* MariaDB.
+* Application files under `/var/www/html/`.
 
 The Apache service was enabled to start automatically and started during instance initialization.
 
@@ -146,13 +146,13 @@ After the EC2 instance completed its initialization and passed its status checks
 
 The lab resulted in a functional AWS environment containing:
 
-* A VPC with public and private network segmentation
-* Subnets distributed across two Availability Zones
-* Public and private routing
-* Internet Gateway and NAT Gateway
-* Security Group controlling HTTP access
-* EC2 instance running a web server
-* Automated server configuration through User Data
+* A VPC with public and private network segmentation.
+* Subnets distributed across two Availability Zones.
+* Public and private routing.
+* Internet Gateway and NAT Gateway.
+* Security Group controlling HTTP access.
+* EC2 instance running a web server.
+* Automated server configuration through User Data.
 
 The web application was successfully accessed through the EC2 instance's public IPv4 address.
 
@@ -162,13 +162,13 @@ The web application was successfully accessed through the EC2 instance's public 
 
 This lab provided practical exposure to the foundational building blocks of AWS networking and compute, particularly:
 
-* Designing a basic **VPC network**
-* Understanding **public vs. private subnets**
-* Associating **route tables** with subnets
-* Using **Internet Gateway and NAT Gateway**
-* Controlling traffic with **Security Groups**
-* Deploying and configuring **EC2**
-* Automating instance initialization with **User Data**
+* Designing a basic **VPC network**.
+* Understanding **public vs. private subnets**.
+* Associating **route tables** with subnets.
+* Using **Internet Gateway and NAT Gateway**.
+* Controlling traffic with **Security Groups**.
+* Deploying and configuring **EC2**.
+* Automating instance initialization with **User Data**.
 
 ---
 
@@ -242,16 +242,16 @@ flowchart TB
 
 ## Serviços e Recursos
 
-| Serviço / Recurso AWS | Finalidade                                          |
-| --------------------- | --------------------------------------------------- |
-| **Amazon VPC**        | Rede virtual da infraestrutura                      |
-| **Subnets**           | Segmentação da rede entre Availability Zones        |
-| **Route Tables**      | Roteamento do tráfego das subnets                   |
-| **Internet Gateway**  | Conectividade com a internet para recursos públicos |
-| **NAT Gateway**       | Acesso de saída à internet para recursos privados   |
-| **Amazon EC2**        | Hospedagem do web server                            |
-| **Security Groups**   | Controle de acesso à instância                      |
-| **User Data**         | Configuração automatizada da instância              |
+| Serviço / Recurso AWS | Finalidade                                           |
+| --------------------- | ---------------------------------------------------- |
+| **Amazon VPC**        | Rede virtual da infraestrutura.                      |
+| **Subnets**           | Segmentação da rede entre Availability Zones.        |
+| **Route Tables**      | Roteamento do tráfego das subnets.                   |
+| **Internet Gateway**  | Conectividade com a internet para recursos públicos. |
+| **NAT Gateway**       | Acesso de saída à internet para recursos privados.   |
+| **Amazon EC2**        | Hospedagem do web server.                            |
+| **Security Groups**   | Controle de acesso à instância.                      |
+| **User Data**         | Configuração automatizada da instância.              |
 
 ---
 
@@ -263,8 +263,8 @@ Foi criada uma `Lab VPC` utilizando o bloco CIDR `10.0.0.0/16`.
 
 O ambiente foi expandido para incluir quatro subnets distribuídas entre duas Availability Zones:
 
-* 2 public subnets
-* 2 private subnets
+* 2 public subnets.
+* 2 private subnets.
 
 As public e private route tables foram associadas às suas respectivas subnets.
 
@@ -282,12 +282,12 @@ Foi criada a instância `Web Server 1` na **Public Subnet 2**, com endereço IPv
 
 **Configuração da instância:**
 
-* **AMI:** Amazon Linux 2
-* **Tipo de instância:** `t3.micro`
-* **VPC:** `Lab VPC`
-* **Subnet:** Public Subnet 2
-* **Security Group:** Web Security Group
-* **Key pair:** `vockey`
+* **AMI:** Amazon Linux 2.
+* **Tipo de instância:** `t3.micro`.
+* **VPC:** `Lab VPC`.
+* **Subnet:** Public Subnet 2.
+* **Security Group:** Web Security Group.
+* **Key pair:** `vockey`.
 
 ### 4. Configuração da Aplicação
 
@@ -295,10 +295,10 @@ O **EC2 User Data** foi utilizado para automatizar a configuração inicial do s
 
 A instância foi configurada com:
 
-* Apache HTTP Server (`httpd`)
-* PHP
-* MariaDB
-* Arquivos da aplicação em `/var/www/html/`
+* Apache HTTP Server (`httpd`).
+* PHP.
+* MariaDB.
+* Arquivos da aplicação em `/var/www/html/`.
 
 O serviço Apache foi habilitado para inicialização automática e iniciado durante a configuração da instância.
 
@@ -314,13 +314,13 @@ Após a inicialização da instância EC2 e a aprovação dos status checks, o e
 
 O laboratório resultou em um ambiente AWS funcional contendo:
 
-* VPC com segmentação entre redes públicas e privadas
-* Subnets distribuídas entre duas Availability Zones
-* Roteamento público e privado
-* Internet Gateway e NAT Gateway
-* Security Group controlando o acesso HTTP
-* Instância EC2 executando um web server
-* Configuração automatizada da instância através de User Data
+* VPC com segmentação entre redes públicas e privadas.
+* Subnets distribuídas entre duas Availability Zones.
+* Roteamento público e privado.
+* Internet Gateway e NAT Gateway.
+* Security Group controlando o acesso HTTP.
+* Instância EC2 executando um web server.
+* Configuração automatizada da instância através de User Data.
 
 A aplicação web foi acessada com sucesso através do endereço IPv4 público da instância EC2.
 
@@ -330,10 +330,10 @@ A aplicação web foi acessada com sucesso através do endereço IPv4 público d
 
 Este laboratório proporcionou contato prático com os principais componentes de networking e compute da AWS, especialmente:
 
-* Criação de uma **VPC**
-* Diferença entre **public e private subnets**
-* Associação de **route tables**
-* Utilização de **Internet Gateway e NAT Gateway**
-* Controle de tráfego com **Security Groups**
-* Deploy e configuração de **EC2**
-* Automação da inicialização utilizando **User Data**
+* Criação de uma **VPC**.
+* Diferença entre **public e private subnets**.
+* Associação de **route tables**.
+* Utilização de **Internet Gateway e NAT Gateway**.
+* Controle de tráfego com **Security Groups**.
+* Deploy e configuração de **EC2**.
+* Automação da inicialização utilizando **User Data**.
